@@ -7,7 +7,7 @@ class NotificationsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
-      selectedIndex: 2,
+      selectedIndex: 0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

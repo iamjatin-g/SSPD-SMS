@@ -17,7 +17,7 @@ class _BaseScreenState extends State<BaseScreen> {
     if (index == 1) {
       route = AppRoutes.timeTable;
     } else if (index == 2) {
-      route = AppRoutes.announcements; // ✅ Updated route to Announcements
+      route = AppRoutes.announcements; // ✅ Navigates to Announcements
     }
 
     if (ModalRoute.of(context)?.settings.name != route) {
@@ -46,7 +46,7 @@ class _BaseScreenState extends State<BaseScreen> {
           IconButton(
             icon: const Icon(Icons.notifications, color: Colors.white),
             onPressed: () {
-              Navigator.pushNamed(context, AppRoutes.announcements); // ✅ Updated to Announcements
+              Navigator.pushNamed(context, AppRoutes.notifications); // ✅ Navigates to Notifications
             },
           ),
           IconButton(
@@ -62,14 +62,14 @@ class _BaseScreenState extends State<BaseScreen> {
         backgroundColor: Colors.white,
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.blue.shade300,
-        currentIndex: widget.selectedIndex, // ✅ Use the correct index
+        currentIndex: widget.selectedIndex, // ✅ Correct index handling
         onTap: _onItemTapped,
         showSelectedLabels: true,
         showUnselectedLabels: true,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.calendar_today), label: "Time-Table"),
-          BottomNavigationBarItem(icon: Icon(Icons.campaign), label: "Announcements"), // ✅ Updated Icon & Label
+          BottomNavigationBarItem(icon: Icon(Icons.campaign), label: "Announcements"), // ✅ Announcements Icon & Label
         ],
       ),
     );
