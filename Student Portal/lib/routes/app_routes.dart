@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import '../screens/home_screen.dart';
 import '../screens/attendance_screen.dart';
 import '../screens/exams_screen.dart';
-import '../screens/timetable_screen.dart'; // Updated import
+import '../screens/timetable_screen.dart';
 import '../screens/notifications_screen.dart';
+import '../screens/announcements_screen.dart'; // ✅ Imported Announcements Screen
 import '../screens/diary_screen.dart';
 import '../screens/syllabus_tracker_screen.dart';
 import '../screens/test_record_screen.dart';
@@ -22,8 +23,9 @@ class AppRoutes {
   static const String feesRecord = '/fees-record';
   static const String events = '/events';
   static const String transport = '/transport';
-  static const String timeTable = '/timetable'; // Updated route name
+  static const String timeTable = '/timetable';
   static const String notifications = '/notifications';
+  static const String announcements = '/announcements'; // ✅ Added Announcements Route
   static const String profile = '/profile';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -46,10 +48,12 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const EventsScreen());
       case transport:
         return MaterialPageRoute(builder: (_) => const TransportScreen());
-      case timeTable: // Updated case for TimeTableScreen
+      case timeTable:
         return MaterialPageRoute(builder: (_) => const TimeTableScreen());
       case notifications:
         return MaterialPageRoute(builder: (_) => const NotificationsScreen());
+      case announcements: // ✅ Added AnnouncementsScreen case
+        return MaterialPageRoute(builder: (_) => const AnnouncementsScreen());
       case profile:
         return MaterialPageRoute(builder: (_) => const ProfileScreen());
       default:

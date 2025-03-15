@@ -17,7 +17,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
-      selectedIndex: 1, // Assuming Attendance is in index 1
+      selectedIndex: 0, // Assuming Attendance is in index 1
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

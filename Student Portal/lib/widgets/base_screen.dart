@@ -17,7 +17,7 @@ class _BaseScreenState extends State<BaseScreen> {
     if (index == 1) {
       route = AppRoutes.timeTable;
     } else if (index == 2) {
-      route = AppRoutes.notifications;
+      route = AppRoutes.announcements; // ✅ Updated route to Announcements
     }
 
     if (ModalRoute.of(context)?.settings.name != route) {
@@ -46,7 +46,7 @@ class _BaseScreenState extends State<BaseScreen> {
           IconButton(
             icon: const Icon(Icons.notifications, color: Colors.white),
             onPressed: () {
-              Navigator.pushNamed(context, AppRoutes.notifications);
+              Navigator.pushNamed(context, AppRoutes.announcements); // ✅ Updated to Announcements
             },
           ),
           IconButton(
@@ -69,7 +69,7 @@ class _BaseScreenState extends State<BaseScreen> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.calendar_today), label: "Time-Table"),
-          BottomNavigationBarItem(icon: Icon(Icons.notifications), label: "Notifications"),
+          BottomNavigationBarItem(icon: Icon(Icons.campaign), label: "Announcements"), // ✅ Updated Icon & Label
         ],
       ),
     );
