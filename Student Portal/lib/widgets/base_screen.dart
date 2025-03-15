@@ -33,7 +33,12 @@ class _BaseScreenState extends State<BaseScreen> {
         backgroundColor: Colors.blue,
         title: Row(
           children: [
-            Image.asset('assets/images/logo_raw.jpg', height: 40),
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, AppRoutes.home); // ✅ Navigates to Home Screen
+              },
+              child: Image.asset('assets/images/logo_raw.jpg', height: 40),
+            ),
             const SizedBox(width: 10),
           ],
         ),
