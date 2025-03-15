@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../screens/home_screen.dart';
 import '../screens/attendance_screen.dart';
 import '../screens/exams_screen.dart';
-import '../screens/calendar_screen.dart';
+import '../screens/timetable_screen.dart'; // Updated import
 import '../screens/notifications_screen.dart';
 import '../screens/diary_screen.dart';
 import '../screens/syllabus_tracker_screen.dart';
@@ -22,9 +22,9 @@ class AppRoutes {
   static const String feesRecord = '/fees-record';
   static const String events = '/events';
   static const String transport = '/transport';
-  static const String calendar = '/calendar';
+  static const String timeTable = '/timetable'; // Updated route name
   static const String notifications = '/notifications';
-  static const String profile = '/profile'; //
+  static const String profile = '/profile';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -46,8 +46,8 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const EventsScreen());
       case transport:
         return MaterialPageRoute(builder: (_) => const TransportScreen());
-      case calendar:
-        return MaterialPageRoute(builder: (_) => const CalendarScreen());
+      case timeTable: // Updated case for TimeTableScreen
+        return MaterialPageRoute(builder: (_) => const TimeTableScreen());
       case notifications:
         return MaterialPageRoute(builder: (_) => const NotificationsScreen());
       case profile:

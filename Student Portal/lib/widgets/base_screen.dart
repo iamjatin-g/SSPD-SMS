@@ -15,7 +15,7 @@ class _BaseScreenState extends State<BaseScreen> {
   void _onItemTapped(int index) {
     String route = AppRoutes.home;
     if (index == 1) {
-      route = AppRoutes.calendar;
+      route = AppRoutes.timeTable;
     } else if (index == 2) {
       route = AppRoutes.notifications;
     }
@@ -68,7 +68,7 @@ class _BaseScreenState extends State<BaseScreen> {
         showUnselectedLabels: true,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.calendar_today), label: "Calendar"),
+          BottomNavigationBarItem(icon: Icon(Icons.calendar_today), label: "Time-Table"),
           BottomNavigationBarItem(icon: Icon(Icons.notifications), label: "Notifications"),
         ],
       ),
