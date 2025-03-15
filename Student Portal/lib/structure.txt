@@ -1,0 +1,71 @@
+lib/
+│── main.dart                 # Entry point of the app
+│
+├── screens/                  # All screens of the app
+│   ├── home_screen.dart       # Home/Dashboard screen
+│   ├── profile_screen.dart    # Student profile screen
+│   ├── attendance_screen.dart # Attendance tracking screen
+│   ├── exams_screen.dart      # Exams & assessment screen
+│   ├── syllabus_screen.dart   # Syllabus tracker screen
+│   ├── fees_screen.dart       # Fees & payments screen
+│   ├── timetable_screen.dart  # Timetable screen
+│   ├── events_screen.dart     # Events and activities screen
+│   ├── transport_screen.dart  # Transport and bus details screen
+│   ├── diary_screen.dart      # Diary & messages screen
+│   ├── notifications_screen.dart # Announcements & notifications
+│
+├── widgets/                   # Reusable UI components
+│   ├── custom_card.dart        # Custom cards for lists
+│   ├── student_info_card.dart  # Student profile UI widget
+│   ├── announcement_tile.dart  # Announcement list tile
+│   ├── grid_item.dart          # Grid item for navigation
+│
+├── models/                     # Data models
+│   ├── student.dart            # Student data model
+│   ├── attendance.dart         # Attendance model
+│   ├── exam.dart               # Exam data model
+│   ├── event.dart              # Event model
+│
+├── services/                   # API / Database services
+│   ├── api_service.dart        # Handles API calls
+│   ├── auth_service.dart       # Authentication service
+│   ├── database_service.dart   # Firebase or local DB interactions
+│
+├── utils/                      # Helper functions
+│   ├── constants.dart          # App-wide constants (colors, text styles)
+│   ├── helpers.dart            # Utility functions
+│
+├── routes/                     # Route management
+│   ├── app_routes.dart         # Defines app routes
+│
+└── assets/                     # Static assets (images, fonts, etc.)
+    ├── images/                 # All images
+    ├── fonts/                  # Custom fonts
+    ├── icons/                   # Custom icons
+
+📌 Explanation of Each Folder
+✅ screens/ (Main app screens)
+All UI screens go here.
+Keeps UI separate from logic.
+
+✅ widgets/ (Reusable UI components)
+Small widgets like custom buttons, cards, tiles, etc.
+Helps avoid redundant code.
+
+✅ models/ (Data models)
+Defines how student, attendance, exams, etc. data is structured.
+Helps with API responses and database management.
+
+✅ services/ (API & Database handling)
+Manages backend API calls or Firebase interactions.
+Keeps network logic separate from UI.
+
+✅ utils/ (Helper functions & constants)
+Stores global styles, text, colors, etc.
+Helper functions like date formatting, string manipulation, etc.
+
+✅ routes/ (Navigation management)
+Centralized named routes for clean navigation between screens.
+
+✅ assets/ (Images, fonts, icons)
+Stores static assets like images, fonts, and icons.
