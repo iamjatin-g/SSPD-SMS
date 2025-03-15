@@ -29,6 +29,7 @@ class _BaseScreenState extends State<BaseScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.blue,
         title: Row(
           children: [
@@ -37,8 +38,18 @@ class _BaseScreenState extends State<BaseScreen> {
           ],
         ),
         actions: [
-          IconButton(icon: const Icon(Icons.notifications, color: Colors.white), onPressed: () {}),
-          IconButton(icon: const Icon(Icons.person, color: Colors.white), onPressed: () {}),
+          IconButton(
+            icon: const Icon(Icons.notifications, color: Colors.white),
+            onPressed: () {
+              Navigator.pushNamed(context, AppRoutes.notifications);
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.person, color: Colors.white),
+            onPressed: () {
+              Navigator.pushNamed(context, AppRoutes.profile); // ✅ Navigate to ProfileScreen
+            },
+          ),
         ],
       ),
       body: widget.child,

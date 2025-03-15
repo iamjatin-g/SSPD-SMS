@@ -7,7 +7,7 @@ class ExamsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
-      selectedIndex: 0, // ✅ Keeps the bottom navigation bar unchanged
+      selectedIndex: 0, // Keeps the bottom navigation bar unchanged
       child: const Center(
         child: Text("Exams Screen", style: TextStyle(fontSize: 18)),
       ),
