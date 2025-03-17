@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pie_chart/pie_chart.dart';
 import '../widgets/base_screen.dart';
 
 class FeesRecordScreen extends StatelessWidget {
@@ -6,13 +7,115 @@ class FeesRecordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BaseScreen(
-      selectedIndex: 0, // Adjust as needed
-      child: const Center(
-        child: Text(
-          "Fees Record Screen",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+    return Scaffold(
+      backgroundColor: const Color(0xFFF9F6FF), // Light pinkish background
+      body: BaseScreen(
+        selectedIndex: 0,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 10),
+              // Student Name Title
+              const Text(
+                "Student Name",
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+
+              // Paid & Unpaid Fees Buttons
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _buildRoundedButton("Paid Fees"),
+                  const SizedBox(width: 10),
+                  _buildRoundedButton("Unpaid Fees"),
+                ],
+              ),
+              const SizedBox(height: 20),
+
+              // Pie Chart with Improved Design
+              _buildImprovedPieChart(),
+              const SizedBox(height: 20),
+
+              // "Pay Now" Button
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 40, vertical: 15),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                onPressed: () {},
+                child: const Text("Pay Now",
+                    style: TextStyle(fontSize: 16, color: Colors.white)),
+              ),
+            ],
+          ),
         ),
+      ),
+    );
+  }
+
+  // 🔹 Helper Widget for Rounded Buttons
+  Widget _buildRoundedButton(String text) {
+    return Expanded(
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.blue,
+          padding: const EdgeInsets.symmetric(vertical: 15),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+        onPressed: () {},
+        child: Text(
+            text, style: const TextStyle(fontSize: 16, color: Colors.white)),
+      ),
+    );
+  }
+
+  // 🎯 Improved Pie Chart with Styling
+  Widget _buildImprovedPieChart() {
+    Map<String, double> dataMap = {
+      "Quarter 1": 25,
+      "Quarter 2": 25,
+      "Quarter 3": 25,
+      "Quarter 4": 25,
+    };
+
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        shape: BoxShape.circle,
+        boxShadow: [
+          BoxShadow(color: Colors.black26, blurRadius: 8, spreadRadius: 2),
+        ],
+      ),
+      padding: const EdgeInsets.all(15),
+      child: PieChart(
+        dataMap: dataMap,
+        chartRadius: 180,
+        ringStrokeWidth: 16,
+        // Spacing between segments
+        legendOptions: const LegendOptions(
+          legendPosition: LegendPosition.bottom,
+          legendTextStyle: TextStyle(fontSize: 16),
+        ),
+        chartValuesOptions: const ChartValuesOptions(
+          showChartValues: false,
+          showChartValuesOutside: false,
+          decimalPlaces: 1,
+        ),
+        colorList: [
+          Colors.blue.shade800,
+          Colors.blue.shade600,
+          Colors.blue.shade400,
+          Colors.blue.shade200,
+        ],
       ),
     );
   }
