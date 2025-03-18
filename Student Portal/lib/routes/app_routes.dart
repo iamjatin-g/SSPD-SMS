@@ -12,6 +12,7 @@ import '../screens/fees_record_screen.dart';
 import '../screens/events_screen.dart';
 import '../screens/transport_screen.dart';
 import '../screens/profile_screen.dart';
+import '../screens/assessment_screen.dart';
 
 class AppRoutes {
   static const String home = '/home';
@@ -27,6 +28,7 @@ class AppRoutes {
   static const String notifications = '/notifications';
   static const String announcements = '/announcements'; // ✅ Added Announcements Route
   static const String profile = '/profile';
+  static const String assessment = '/assessment';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -52,10 +54,12 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const TimeTableScreen());
       case notifications:
         return MaterialPageRoute(builder: (_) => const NotificationsScreen());
-      case announcements: // ✅ Added AnnouncementsScreen case
+      case announcements:
         return MaterialPageRoute(builder: (_) => const AnnouncementsScreen());
       case profile:
         return MaterialPageRoute(builder: (_) => const ProfileScreen());
+      case assessment: // ✅ Added AssessmentScreen case
+        return MaterialPageRoute(builder: (_) => const AssessmentScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(
