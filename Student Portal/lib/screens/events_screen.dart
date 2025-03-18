@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/base_screen.dart';
+import '../widgets/back_button_widget.dart'; // Import BackButtonWidget
 
 class EventsScreen extends StatelessWidget {
   const EventsScreen({super.key});
@@ -11,6 +12,12 @@ class EventsScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // **AppBar with Back Button**
+          const Padding(
+            padding: EdgeInsets.only(left: 8.0, top: 8.0),
+            child: BackButtonWidget(), // Using BackButtonWidget
+          ),
+
           // **Title & Date**
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),

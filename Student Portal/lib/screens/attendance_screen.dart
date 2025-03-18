@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../widgets/base_screen.dart';
+import '../widgets/back_button_widget.dart';
 
 class AttendanceScreen extends StatefulWidget {
   const AttendanceScreen({super.key});
@@ -23,19 +24,27 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // **Header: Attendance + Date**
+            // **Header with Back Button**
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                const BackButtonWidget(),
                 const Text(
                   "Attendance",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                Text(
-                  "${_focusedDay.day} ${_getMonthName(_focusedDay.month)} ${_focusedDay.year} | ${_getWeekdayName(_focusedDay.weekday)}",
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
+                const SizedBox(width: 48), // To balance the alignment
               ],
+            ),
+
+            const SizedBox(height: 10),
+
+            // **Date Display**
+            Center(
+              child: Text(
+                "${_focusedDay.day} ${_getMonthName(_focusedDay.month)} ${_focusedDay.year} | ${_getWeekdayName(_focusedDay.weekday)}",
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
             ),
 
             const SizedBox(height: 10),

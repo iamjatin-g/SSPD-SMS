@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../widgets/base_screen.dart'; // Import BaseScreen
+import '../widgets/base_screen.dart';
+import '../widgets/back_button_widget.dart'; // ✅ Import BackButtonWidget
 
 class AssessmentScreen extends StatelessWidget {
   const AssessmentScreen({super.key});
@@ -7,29 +8,34 @@ class AssessmentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
-      selectedIndex: 1, // No bottom navbar highlight needed
+      selectedIndex: 1, // ✅ No bottom navbar highlight needed
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ✅ Back Button
-              IconButton(
-                icon: const Icon(Icons.arrow_back, size: 28, color: Colors.black),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+              const SizedBox(height: 10),
+
+              // ✅ Back Button & Title (Centered)
+              Row(
+                children: const [
+                  BackButtonWidget(),
+                  Expanded(
+                    child: Center(
+                      child: Text(
+                        "Assessment",
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 48), // Keeps title centered
+                ],
               ),
 
-              // ✅ Header Section
-              const Center(
-                child: Text(
-                  "TimeTable",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                ),
-              ),
               const SizedBox(height: 10),
+
+              // ✅ Date Display (Right-aligned)
               const Align(
                 alignment: Alignment.centerRight,
                 child: Text(
@@ -37,6 +43,7 @@ class AssessmentScreen extends StatelessWidget {
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                 ),
               ),
+
               const SizedBox(height: 10),
 
               // ✅ Student Info
@@ -44,13 +51,16 @@ class AssessmentScreen extends StatelessWidget {
                 "Standard: 5th  |  Division: A",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
+
               const SizedBox(height: 10),
+
               const Center(
                 child: Text(
                   "Student Name",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ),
+
               const SizedBox(height: 10),
 
               // ✅ Subject Name (Always English)
@@ -60,6 +70,7 @@ class AssessmentScreen extends StatelessWidget {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
+
               const SizedBox(height: 10),
 
               // ✅ Chapter Selection
@@ -81,9 +92,10 @@ class AssessmentScreen extends StatelessWidget {
                   ),
                 ],
               ),
+
               const SizedBox(height: 10),
 
-              // ✅ Classwork
+              // ✅ Classwork Section
               const Text("Classwork:", style: TextStyle(fontSize: 16)),
               Container(
                 width: double.infinity,
@@ -92,6 +104,7 @@ class AssessmentScreen extends StatelessWidget {
                   border: Border.all(color: Colors.black),
                 ),
               ),
+
               const SizedBox(height: 10),
 
               // ✅ Class Activity (With Upload Button)
@@ -108,14 +121,18 @@ class AssessmentScreen extends StatelessWidget {
                   const SizedBox(width: 10),
                   ElevatedButton(
                     onPressed: () {},
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    ),
                     child: const Text("Upload", style: TextStyle(color: Colors.white)),
                   ),
                 ],
               ),
+
               const SizedBox(height: 10),
 
-              // ✅ Homework
+              // ✅ Homework Section
               const Text("Homework:", style: TextStyle(fontSize: 16)),
               Container(
                 width: double.infinity,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../routes/app_routes.dart';
 import '../widgets/base_screen.dart';
+import '../widgets/back_button_widget.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -33,13 +34,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Center(
-                  child: Text(
-                    "My Profile",
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                  ),
+                const SizedBox(height: 10),
+
+                // ✅ Back Button & Centered Title
+                Row(
+                  children: const [
+                    BackButtonWidget(),
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          "My Profile",
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 48), // Keeps title centered
+                  ],
                 ),
+
                 const SizedBox(height: 20),
+
                 const Center(
                   child: CircleAvatar(
                     radius: 50,
@@ -47,6 +61,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: Icon(Icons.person, size: 60, color: Colors.white),
                   ),
                 ),
+
                 const SizedBox(height: 20),
 
                 // ✅ Name Field

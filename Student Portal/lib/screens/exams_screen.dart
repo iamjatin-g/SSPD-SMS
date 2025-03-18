@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/base_screen.dart';
+import '../widgets/back_button_widget.dart'; // Import BackButtonWidget
 
 class ExamsScreen extends StatelessWidget {
   const ExamsScreen({super.key});
@@ -13,7 +14,25 @@ class ExamsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Student Details
+            // **Back Button & Centered Heading**
+            Row(
+              children: [
+                const BackButtonWidget(), // Back button
+                Expanded(
+                  child: Center(
+                    child: const Text(
+                      "Exams Record",
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 48), // To balance row spacing
+              ],
+            ),
+
+            const SizedBox(height: 10),
+
+            // **Student Details**
             const Text(
               "Standard: 5th  |  Division: A",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -28,7 +47,7 @@ class ExamsScreen extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     // Navigate to Timetable screen
-                    // Navigator.pushNamed(context, '/timetable');
+                    Navigator.pushNamed(context, '/timetable');
                   },
                   child: const Text(
                     "View Timetable",
@@ -37,9 +56,10 @@ class ExamsScreen extends StatelessWidget {
                 ),
               ],
             ),
+
             const SizedBox(height: 10),
 
-            // Centered Exam Table
+            // **Centered Exam Table**
             Expanded(
               child: Center(
                 child: SingleChildScrollView(
@@ -64,19 +84,25 @@ class ExamsScreen extends StatelessWidget {
                       columnSpacing: 30,
                       columns: const [
                         DataColumn(
-                          label: Text("Subject",
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold)),
+                          label: Text(
+                            "Subject",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
                         ),
                         DataColumn(
-                          label: Text("Sem 1",
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold)),
+                          label: Text(
+                            "Sem 1",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
                         ),
                         DataColumn(
-                          label: Text("Sem 2",
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold)),
+                          label: Text(
+                            "Sem 2",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ],
                       rows: [
@@ -101,7 +127,7 @@ class ExamsScreen extends StatelessWidget {
     );
   }
 
-  // Function to create table rows with better spacing
+  // **Function to create table rows with better spacing**
   DataRow _buildTableRow(String subject, String sem1, String sem2,
       {bool isBold = false}) {
     TextStyle textStyle = TextStyle(

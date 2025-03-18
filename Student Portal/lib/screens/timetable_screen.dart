@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/base_screen.dart';
+import '../widgets/back_button_widget.dart'; // ✅ Import BackButtonWidget
 import '../routes/app_routes.dart'; // ✅ Import AppRoutes for Named Navigation
 
 class TimeTableScreen extends StatelessWidget {
@@ -8,13 +9,33 @@ class TimeTableScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
-      selectedIndex: 1, // Timetable tab
+      selectedIndex: 1, // ✅ Timetable tab
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Student Info
+            const SizedBox(height: 10),
+
+            // ✅ Back Button & Title (Centered)
+            Row(
+              children: const [
+                BackButtonWidget(),
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      "Timetable",
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 48), // ✅ Keeps title centered
+              ],
+            ),
+
+            const SizedBox(height: 10),
+
+            // ✅ Student Info
             const Text(
               "Standard: 5th  |  Division: A",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -28,7 +49,7 @@ class TimeTableScreen extends StatelessWidget {
             ),
             const SizedBox(height: 10),
 
-            // Timetable List
+            // ✅ Timetable List
             Expanded(
               child: ListView(
                 children: [
@@ -37,7 +58,7 @@ class TimeTableScreen extends StatelessWidget {
                   _buildTimetableCard(context, 3, "8:30 to 9:00", "Marathi", "Miss Sharma"),
                   _buildTimetableCard(context, 4, "9:00 to 9:30", "Hindi", "Miss Sharma"),
 
-                  // Break Section
+                  // ✅ Break Section
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 10),
                     child: Center(
@@ -65,7 +86,7 @@ class TimeTableScreen extends StatelessWidget {
     );
   }
 
-  // Timetable Card Widget
+  // ✅ Timetable Card Widget
   Widget _buildTimetableCard(BuildContext context, int period, String time, String subject, String teacher) {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 6),

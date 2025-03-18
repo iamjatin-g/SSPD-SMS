@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/base_screen.dart';
+import '../widgets/back_button_widget.dart'; // ✅ Import Back Button Widget
 
 class TransportScreen extends StatelessWidget {
   const TransportScreen({super.key});
@@ -7,41 +8,50 @@ class TransportScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
-      selectedIndex: 0, // Adjust as needed
+      selectedIndex: 0, // ✅ Correct index for navigation
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Date and student info
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "Transport",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  "15 Feb 2025 | Sat",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            const Text("Standard: 5th", style: TextStyle(fontSize: 16)),
-            const Text("Division: A", style: TextStyle(fontSize: 16)),
             const SizedBox(height: 10),
 
-            // Student Name
+            // ✅ Back Button & Title (Centered)
+            Row(
+              children: const [
+                BackButtonWidget(),
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      "Transport",
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 48), // Keeps title centered
+              ],
+            ),
+
+            const SizedBox(height: 10),
+
+            // ✅ Student Details
+            const Text(
+              "Standard: 5th  |  Division: A",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+
+            const SizedBox(height: 10),
+
             const Center(
               child: Text(
                 "Student Name",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
+
             const SizedBox(height: 10),
 
-            // Search Bar
+            // ✅ Search Bar
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(
@@ -54,7 +64,7 @@ class TransportScreen extends StatelessWidget {
                     child: TextField(
                       decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: "Search Event",
+                        hintText: "Search Transport",
                       ),
                     ),
                   ),
@@ -67,9 +77,10 @@ class TransportScreen extends StatelessWidget {
                 ],
               ),
             ),
+
             const SizedBox(height: 10),
 
-            // Transport Cards List
+            // ✅ Transport Cards List
             Expanded(
               child: ListView(
                 children: [
@@ -102,7 +113,7 @@ class TransportScreen extends StatelessWidget {
   }
 }
 
-// Transport Card Widget
+// ✅ Transport Card Widget
 class TransportCard extends StatelessWidget {
   final String busNo;
   final String status;
@@ -135,7 +146,7 @@ class TransportCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Bus number and status
+            // ✅ Bus number and status
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -155,20 +166,22 @@ class TransportCard extends StatelessWidget {
                 ),
               ],
             ),
+
             const SizedBox(height: 5),
 
-            // Pickup & Drop details
+            // ✅ Pickup & Drop details
             Text("Pick Up: $pickup"),
             Text("Drop: $drop"),
             Text("Driver: $driver"),
             Text("Supervisor: $supervisor"),
+
             const SizedBox(height: 5),
 
-            // Status Bar
+            // ✅ Status Bar
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text("Live  Location"),
+                const Text("Live Location"),
                 Text(
                   status,
                   style: TextStyle(

@@ -1,60 +1,75 @@
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 import '../widgets/base_screen.dart';
+import '../widgets/back_button_widget.dart';
 
 class FeesRecordScreen extends StatelessWidget {
   const FeesRecordScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF9F6FF), // Light pinkish background
-      body: BaseScreen(
-        selectedIndex: 0,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 10),
-              // Student Name Title
-              const Text(
-                "Student Name",
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 10),
+    return BaseScreen(
+      selectedIndex: 0,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(height: 10),
 
-              // Paid & Unpaid Fees Buttons
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _buildRoundedButton("Paid Fees"),
-                  const SizedBox(width: 10),
-                  _buildRoundedButton("Unpaid Fees"),
-                ],
-              ),
-              const SizedBox(height: 20),
-
-              // Pie Chart with Improved Design
-              _buildImprovedPieChart(),
-              const SizedBox(height: 20),
-
-              // "Pay Now" Button
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 40, vertical: 15),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+            // **Back Button & Title**
+            Row(
+              children: const [
+                BackButtonWidget(),
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      "Fees Record",
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
-                onPressed: () {},
-                child: const Text("Pay Now",
-                    style: TextStyle(fontSize: 16, color: Colors.white)),
+                SizedBox(width: 48), // Keeps the title centered
+              ],
+            ),
+            const SizedBox(height: 10),
+
+            // **Student Name**
+            const Text(
+              "Student Name",
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+
+            // **Paid & Unpaid Fees Buttons**
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _buildRoundedButton("Paid Fees"),
+                const SizedBox(width: 10),
+                _buildRoundedButton("Unpaid Fees"),
+              ],
+            ),
+            const SizedBox(height: 20),
+
+            // **Pie Chart**
+            _buildImprovedPieChart(),
+            const SizedBox(height: 20),
+
+            // **"Pay Now" Button**
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
               ),
-            ],
-          ),
+              onPressed: () {},
+              child: const Text("Pay Now",
+                  style: TextStyle(fontSize: 16, color: Colors.white)),
+            ),
+          ],
         ),
       ),
     );
@@ -100,7 +115,6 @@ class FeesRecordScreen extends StatelessWidget {
         dataMap: dataMap,
         chartRadius: 180,
         ringStrokeWidth: 16,
-        // Spacing between segments
         legendOptions: const LegendOptions(
           legendPosition: LegendPosition.bottom,
           legendTextStyle: TextStyle(fontSize: 16),

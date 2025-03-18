@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/base_screen.dart';
+import '../widgets/back_button_widget.dart'; // ✅ Import BackButtonWidget
 
 class AnnouncementsScreen extends StatelessWidget {
   const AnnouncementsScreen({super.key});
@@ -7,41 +8,61 @@ class AnnouncementsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
-      selectedIndex: 2, // Adjusted for correct navigation
+      selectedIndex: 2, // ✅ Adjusted for correct navigation
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Announcement Header
+            const SizedBox(height: 10),
+
+            // ✅ Back Button & Title (Centered)
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "Announcements",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              children: const [
+                BackButtonWidget(),
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      "Announcements",
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ),
                 ),
-                Text(
-                  "15 Feb 2025 | Sat",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.grey[700]),
-                ),
+                SizedBox(width: 48), // Keeps title centered
               ],
             ),
-            const SizedBox(height: 8),
-            const Text("Standard: 5th", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-            const Text("Division: A", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-            const SizedBox(height: 12),
 
-            // Student Name
+            const SizedBox(height: 10),
+
+            // ✅ Date Display (Right-aligned)
+            const Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                "15 Feb 2025 | Sat",
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            // ✅ Student Info
+            const Text(
+              "Standard: 5th  |  Division: A",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+
+            const SizedBox(height: 10),
+
             const Center(
               child: Text(
                 "Student Name",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
+
             const Divider(thickness: 1, height: 20, color: Colors.blue),
 
-            // Announcements List
+            // ✅ Announcements List
             Expanded(
               child: ListView(
                 children: [

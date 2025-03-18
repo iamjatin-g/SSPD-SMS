@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/base_screen.dart';
+import '../widgets/back_button_widget.dart';
 
 class NotificationsScreen extends StatelessWidget {
   const NotificationsScreen({super.key});
@@ -7,20 +8,36 @@ class NotificationsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
-      selectedIndex: 0,
+      selectedIndex: 2, // Notifications tab selected
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header with "Notification" title and date
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "Notification",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          const SizedBox(height: 10),
+
+          // **Back Button & Title**
+          Row(
+            children: const [
+              BackButtonWidget(),
+              Expanded(
+                child: Center(
+                  child: Text(
+                    "Notifications",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
                 ),
+              ),
+              SizedBox(width: 48), // Keeps the title centered
+            ],
+          ),
+
+          const SizedBox(height: 10),
+
+          // **Header with Date**
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: const [
                 Text(
                   "15 Feb 2025 | Sat",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -31,7 +48,7 @@ class NotificationsScreen extends StatelessWidget {
 
           const SizedBox(height: 10),
 
-          // Student details
+          // **Student Details**
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
@@ -45,7 +62,7 @@ class NotificationsScreen extends StatelessWidget {
 
           const SizedBox(height: 10),
 
-          // Student Name
+          // **Student Name**
           const Center(
             child: Text(
               "Student Name",
@@ -55,7 +72,7 @@ class NotificationsScreen extends StatelessWidget {
 
           const SizedBox(height: 10),
 
-          // Notifications List inside Expanded to prevent overflow
+          // **Notifications List**
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -77,13 +94,13 @@ final List<Map<String, String>> notifications = [
     "id": "1",
     "title": "Miss Susexna Send Announcement",
     "description": "Holiday on 26 Feb",
-    "date": "Date",
+    "date": "15 Feb 2025",
   },
   {
     "id": "2",
     "title": "Mr. John Parents Send Leave Request",
     "description": "Leave Request on 21 Feb",
-    "date": "Date",
+    "date": "14 Feb 2025",
   },
 ];
 
@@ -103,7 +120,7 @@ class NotificationCard extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Number Box
+            // **Number Box**
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
@@ -117,7 +134,7 @@ class NotificationCard extends StatelessWidget {
             ),
             const SizedBox(width: 10),
 
-            // Notification Content
+            // **Notification Content**
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -134,7 +151,7 @@ class NotificationCard extends StatelessWidget {
               ),
             ),
 
-            // Date & View Button
+            // **Date & View Button**
             Column(
               children: [
                 Text(
