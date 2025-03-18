@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/base_screen.dart';
+import '../routes/app_routes.dart'; // ✅ Import AppRoutes
 
 class SyllabusTrackerScreen extends StatelessWidget {
   const SyllabusTrackerScreen({super.key});
@@ -21,7 +22,7 @@ class SyllabusTrackerScreen extends StatelessWidget {
                 const Text("Division : A", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 10),
                 Center(
-                  child: Text(
+                  child: const Text(
                     "Student Name",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
@@ -50,11 +51,11 @@ class SyllabusTrackerScreen extends StatelessWidget {
             child: ListView(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               children: [
-                _buildSubjectCard("E", "English", Colors.blue),
-                _buildSubjectCard("M", "Maths", Colors.teal),
-                _buildSubjectCard("S", "Science", Colors.green),
-                _buildSubjectCard("H", "History", Colors.red),
-                _buildSubjectCard("G", "Geography", Colors.orange),
+                _buildSubjectCard(context, "E", "English", Colors.blue),
+                _buildSubjectCard(context, "M", "Maths", Colors.teal),
+                _buildSubjectCard(context, "S", "Science", Colors.green),
+                _buildSubjectCard(context, "H", "History", Colors.red),
+                _buildSubjectCard(context, "G", "Geography", Colors.orange),
               ],
             ),
           ),
@@ -63,8 +64,8 @@ class SyllabusTrackerScreen extends StatelessWidget {
     );
   }
 
-  // Function to Build Subject Cards
-  Widget _buildSubjectCard(String letter, String subject, Color color) {
+  // Function to Build Subject Cards with Navigation
+  Widget _buildSubjectCard(BuildContext context, String letter, String subject, Color color) {
     return Card(
       elevation: 3,
       margin: const EdgeInsets.symmetric(vertical: 8),
@@ -78,7 +79,9 @@ class SyllabusTrackerScreen extends StatelessWidget {
         ),
         title: Text(subject, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         trailing: TextButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, AppRoutes.syllabusDetails);
+          },
           child: const Text("View", style: TextStyle(fontSize: 16, color: Colors.blue)),
         ),
       ),

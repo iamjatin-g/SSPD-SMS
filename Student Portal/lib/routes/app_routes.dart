@@ -4,7 +4,7 @@ import '../screens/attendance_screen.dart';
 import '../screens/exams_screen.dart';
 import '../screens/timetable_screen.dart';
 import '../screens/notifications_screen.dart';
-import '../screens/announcements_screen.dart'; // ✅ Imported Announcements Screen
+import '../screens/announcements_screen.dart';
 import '../screens/diary_screen.dart';
 import '../screens/syllabus_tracker_screen.dart';
 import '../screens/test_record_screen.dart';
@@ -13,6 +13,7 @@ import '../screens/events_screen.dart';
 import '../screens/transport_screen.dart';
 import '../screens/profile_screen.dart';
 import '../screens/assessment_screen.dart';
+import '../screens/syllabus_details_screen.dart';
 
 class AppRoutes {
   static const String home = '/home';
@@ -26,9 +27,10 @@ class AppRoutes {
   static const String transport = '/transport';
   static const String timeTable = '/timetable';
   static const String notifications = '/notifications';
-  static const String announcements = '/announcements'; // ✅ Added Announcements Route
+  static const String announcements = '/announcements';
   static const String profile = '/profile';
   static const String assessment = '/assessment';
+  static const String syllabusDetails = '/syllabus-details';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -58,8 +60,10 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const AnnouncementsScreen());
       case profile:
         return MaterialPageRoute(builder: (_) => const ProfileScreen());
-      case assessment: // ✅ Added AssessmentScreen case
+      case assessment:
         return MaterialPageRoute(builder: (_) => const AssessmentScreen());
+      case syllabusDetails:
+        return MaterialPageRoute(builder: (_) => const SyllabusDetailsScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(
