@@ -3,13 +3,13 @@ import 'package:intl/intl.dart';
 import '../widgets/base_screen.dart';
 import '../routes/app_routes.dart';
 
-// 📌 Custom ClipPath for Curved Image
+// 📌 Custom ClipPath for Better Curved Background
 class CustomClipPath extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     Path path = Path();
-    path.lineTo(0, size.height - 50);
-    path.quadraticBezierTo(size.width / 2, size.height, size.width, size.height - 50);
+    path.lineTo(0, size.height - 60); // 🔼 Increased curve height
+    path.quadraticBezierTo(size.width / 2, size.height + 50, size.width, size.height - 70);
     path.lineTo(size.width, 0);
     path.close();
     return path;
@@ -30,67 +30,69 @@ class HomeScreen extends StatelessWidget {
       selectedIndex: 0, // ✅ Home is selected
       child: Column(
         children: [
-          // 📌 Curved Image Background Section
+          // 📌 Enlarged Background Image Section
           Stack(
             children: [
               ClipPath(
                 clipper: CustomClipPath(),
                 child: Image.asset(
-                  'assets/images/campus_building.jpg', // ✅ Load image from assets
+                  'assets/images/school_bg.jpg', // ✅ Enlarged image
                   width: double.infinity,
-                  height: 180,
-                  fit: BoxFit.cover, // ✅ Ensure the image fills the space
+                  height: 200,
+                  fit: BoxFit.cover,
                 ),
               ),
-              Positioned(
-                top: 50, // Adjust text position
-                left: 20,
-                right: 20,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // 📌 "Hello Student" with Black Text
-                    const Text(
-                      "Hello Student",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black, // ✅ Black text
-                      ),
-                    ),
 
-                    // 📌 Date with Grey Background
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[300], // ✅ Light grey background
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Text(
-                        currentDate,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black, // ✅ Black text for contrast
-                        ),
-                      ),
+              // 📌 "Hello Student" at Top (Bold & Readable)
+              Positioned(
+                top: 20, // 🔼 Position at the top-left
+                left: 20,
+                child: const Text(
+                  "Hello Student",
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    shadows: [
+                      Shadow(color: Colors.white, blurRadius: 3), // ✅ Soft outline
+                    ],
+                  ),
+                ),
+              ),
+
+              // 📌 Date at Original Position (Right)
+              Positioned(
+                bottom: 20, // ✅ Kept at the same place as before
+                right: 20,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.8), // ✅ Semi-transparent background
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    currentDate,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
                     ),
-                  ],
+                  ),
                 ),
               ),
             ],
           ),
 
-          const SizedBox(height: 20), // ✅ Space between header and menu
+          const SizedBox(height: 5), // ✅ Space between header and menu
 
-          // 📌 Grid Menu Section
+          // 📌 Clean Grid Menu Section
           Expanded(
             child: GridView.count(
               crossAxisCount: 2,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
+              crossAxisSpacing: 12, // 🔼 More spacing for a clean look
+              mainAxisSpacing: 12,
               childAspectRatio: 3 / 2,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               children: [
                 _buildGridItem(context, "Attendance", Icons.check_circle_outline, AppRoutes.attendance),
                 _buildGridItem(context, "Diary", Icons.menu_book, AppRoutes.diary),
@@ -117,11 +119,11 @@ class HomeScreen extends StatelessWidget {
       },
       child: Card(
         elevation: 3,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)), // 🔼 Slightly rounder
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 40, color: Colors.blue),
+            Icon(icon, size: 42, color: Colors.blue), // 🔼 Slightly larger icons
             const SizedBox(height: 8),
             Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
           ],
