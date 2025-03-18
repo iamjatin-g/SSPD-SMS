@@ -47,7 +47,7 @@ class ExamsScreen extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     // Navigate to Timetable screen
-                    Navigator.pushNamed(context, '/timetable');
+                    // Navigator.pushNamed(context, '/timetable');
                   },
                   child: const Text(
                     "View Timetable",
