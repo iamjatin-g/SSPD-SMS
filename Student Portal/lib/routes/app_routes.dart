@@ -14,6 +14,7 @@ import '../screens/transport_screen.dart';
 import '../screens/profile_screen.dart';
 import '../screens/assessment_screen.dart';
 import '../screens/syllabus_details_screen.dart';
+import '../screens/exam_timetable_screen.dart';
 
 class AppRoutes {
   static const String home = '/home';
@@ -31,6 +32,7 @@ class AppRoutes {
   static const String profile = '/profile';
   static const String assessment = '/assessment';
   static const String syllabusDetails = '/syllabus-details';
+  static const String examTimetable = '/exam-timetable';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -64,6 +66,8 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const AssessmentScreen());
       case syllabusDetails:
         return MaterialPageRoute(builder: (_) => const SyllabusDetailsScreen());
+      case examTimetable:
+        return MaterialPageRoute(builder: (_) => const ExamTimetableScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(

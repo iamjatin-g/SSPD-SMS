@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/base_screen.dart';
 import '../widgets/back_button_widget.dart'; // Import BackButtonWidget
+import '../routes/app_routes.dart';
 
 class ExamsScreen extends StatelessWidget {
   const ExamsScreen({super.key});
@@ -47,7 +48,7 @@ class ExamsScreen extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     // Navigate to Timetable screen
-                    // Navigator.pushNamed(context, '/timetable');
+                    Navigator.pushNamed(context, AppRoutes.examTimetable);
                   },
                   child: const Text(
                     "View Timetable",
