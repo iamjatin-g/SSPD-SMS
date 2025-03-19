@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/base_screen.dart';
 import '../widgets/back_button_widget.dart';
+import '../routes/app_routes.dart';
 
 class DiaryScreen extends StatefulWidget {
   const DiaryScreen({super.key});
@@ -114,7 +115,8 @@ class _DiaryScreenState extends State<DiaryScreen> {
                 itemCount: _selectedTab == 0 ? inboxMessages.length : sentMessages.length,
                 itemBuilder: (context, index) {
                   var message = _selectedTab == 0 ? inboxMessages[index] : sentMessages[index];
-                  return _buildMessageTile(index + 1, message["subject"]!, message["body"]!, message["date"]!);
+                  return _buildMessageTile(
+                      index + 1, message["subject"]!, message["body"]!, message["date"]!, context);
                 },
               ),
             ),
@@ -154,7 +156,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
   }
 
   // **Message Tile**
-  Widget _buildMessageTile(int number, String subject, String body, String date) {
+  Widget _buildMessageTile(int number, String subject, String body, String date, BuildContext context) {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 5),
       child: Padding(
@@ -193,7 +195,15 @@ class _DiaryScreenState extends State<DiaryScreen> {
                 Text(date, style: const TextStyle(fontSize: 14)),
                 TextButton(
                   onPressed: () {
-                    // View message action
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.viewInboxNote,
+                      arguments: {
+                        'subject': subject,
+                        'message': body,
+                        'date': date,
+                      },
+                    );
                   },
                   child: const Text(
                     "View",
