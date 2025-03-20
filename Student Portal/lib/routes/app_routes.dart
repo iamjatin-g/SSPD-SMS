@@ -16,6 +16,7 @@ import '../screens/assessment_screen.dart';
 import '../screens/syllabus_details_screen.dart';
 import '../screens/exam_timetable_screen.dart';
 import '../screens/view_inbox_note_screen.dart';
+import '../screens/add_note_screen.dart';
 
 class AppRoutes {
   static const String home = '/home';
@@ -35,6 +36,7 @@ class AppRoutes {
   static const String syllabusDetails = '/syllabus-details';
   static const String examTimetable = '/exam-timetable';
   static const String viewInboxNote = '/view-inbox-note';
+  static const String addNote = '/add-note';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -79,6 +81,8 @@ class AppRoutes {
             date: args['date'] ?? '',
           ),
         );
+      case addNote: // Route for Add Note screen
+        return MaterialPageRoute(builder: (_) => const AddNoteScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(

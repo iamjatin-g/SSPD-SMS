@@ -85,6 +85,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                   icon: const Icon(Icons.add, size: 30, color: Colors.blue),
                   onPressed: () {
                     // Add message functionality
+                    Navigator.pushNamed(context, AppRoutes.addNote);
                   },
                 ),
               ],
