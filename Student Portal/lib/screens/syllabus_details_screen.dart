@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/base_screen.dart';
 import '../widgets/back_button_widget.dart';
+import '../routes/app_routes.dart';
 
 class SyllabusDetailsScreen extends StatelessWidget {
   const SyllabusDetailsScreen({super.key});
@@ -8,7 +9,7 @@ class SyllabusDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
-      selectedIndex: 0, // ✅ Adjust index as needed
+      selectedIndex: 0,
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(
@@ -67,30 +68,30 @@ class SyllabusDetailsScreen extends StatelessWidget {
                     "Chp 1:",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  syllabusItem("1", "English", "Chp 1", "Miss Sharma"),
-                  syllabusItem("2", "English", "Chp 1", "Miss Sharma"),
-                  syllabusItem("3", "English", "Chp 1", "Miss Sharma"),
-                  syllabusItem("4", "English", "Chp 1", "Miss Sharma"),
+                  syllabusItem(context, "1", "English", "Chp 1", "Miss Sharma"),
+                  syllabusItem(context, "2", "English", "Chp 1", "Miss Sharma"),
+                  syllabusItem(context, "3", "English", "Chp 1", "Miss Sharma"),
+                  syllabusItem(context, "4", "English", "Chp 1", "Miss Sharma"),
                   const SizedBox(height: 10),
 
                   const Text(
                     "Chp 2:",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  syllabusItem("1", "English", "Chp 2", "Miss Sharma"),
-                  syllabusItem("2", "English", "Chp 2", "Miss Sharma"),
-                  syllabusItem("3", "English", "Chp 2", "Miss Sharma"),
-                  syllabusItem("4", "English", "Chp 2", "Miss Sharma"),
+                  syllabusItem(context, "1", "English", "Chp 2", "Miss Sharma"),
+                  syllabusItem(context, "2", "English", "Chp 2", "Miss Sharma"),
+                  syllabusItem(context, "3", "English", "Chp 2", "Miss Sharma"),
+                  syllabusItem(context, "4", "English", "Chp 2", "Miss Sharma"),
                   const SizedBox(height: 10),
 
                   const Text(
                     "Chp 3:",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  syllabusItem("1", "English", "Chp 3", "Miss Sharma"),
-                  syllabusItem("2", "English", "Chp 3", "Miss Sharma"),
-                  syllabusItem("3", "English", "Chp 3", "Miss Sharma"),
-                  syllabusItem("4", "English", "Chp 3", "Miss Sharma"),
+                  syllabusItem(context, "1", "English", "Chp 3", "Miss Sharma"),
+                  syllabusItem(context, "2", "English", "Chp 3", "Miss Sharma"),
+                  syllabusItem(context, "3", "English", "Chp 3", "Miss Sharma"),
+                  syllabusItem(context, "4", "English", "Chp 3", "Miss Sharma"),
                   const SizedBox(height: 10),
                 ],
               ),
@@ -101,8 +102,8 @@ class SyllabusDetailsScreen extends StatelessWidget {
     );
   }
 
-  // ✅ Function to Build Syllabus Items
-  Widget syllabusItem(String number, String subject, String chapter, String teacher) {
+  // ✅ Function to Build Syllabus Items with Navigation to Assessment Screen
+  Widget syllabusItem(BuildContext context, String number, String subject, String chapter, String teacher) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4),
       padding: const EdgeInsets.all(8),
@@ -134,9 +135,14 @@ class SyllabusDetailsScreen extends StatelessWidget {
             teacher,
             style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           ),
-          const Text(
-            "View Assessment",
-            style: TextStyle(fontSize: 14, color: Colors.blue),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, AppRoutes.assessment);
+            },
+            child: const Text(
+              "View Assessment",
+              style: TextStyle(fontSize: 14, color: Colors.blue, fontWeight: FontWeight.bold),
+            ),
           ),
         ],
       ),
