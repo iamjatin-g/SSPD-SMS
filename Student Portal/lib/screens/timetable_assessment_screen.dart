@@ -2,18 +2,25 @@ import 'package:flutter/material.dart';
 import '../widgets/base_screen.dart';
 import '../widgets/back_button_widget.dart';
 
-class AssessmentScreen extends StatelessWidget {
-  const AssessmentScreen({super.key});
+class TimetableAssessmentScreen extends StatefulWidget {
+  const TimetableAssessmentScreen({super.key});
+
+  @override
+  _TimetableAssessmentScreenState createState() => _TimetableAssessmentScreenState();
+}
+
+class _TimetableAssessmentScreenState extends State<TimetableAssessmentScreen> {
+  // ✅ Default selected chapter
+  int _selectedChapter = 1;
 
   @override
   Widget build(BuildContext context) {
-    // ✅ Retrieve subject and chapter from arguments
+    // ✅ Retrieve subject name from arguments
     final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
     final String subject = args?['subject'] ?? "Subject";
-    final String chapter = args?['chapter'] ?? "Chapter";
 
     return BaseScreen(
-      selectedIndex: 0,
+      selectedIndex: 1, // ✅ No bottom navbar highlight needed
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(12.0),
@@ -22,7 +29,7 @@ class AssessmentScreen extends StatelessWidget {
             children: [
               const SizedBox(height: 10),
 
-              // ✅ Back Button & Title
+              // ✅ Back Button & Title (Centered)
               Row(
                 children: const [
                   BackButtonWidget(),
@@ -34,13 +41,13 @@ class AssessmentScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(width: 48),
+                  SizedBox(width: 48), // ✅ Keeps title centered
                 ],
               ),
 
               const SizedBox(height: 10),
 
-              // ✅ Date Display
+              // ✅ Date Display (Right-aligned)
               const Align(
                 alignment: Alignment.centerRight,
                 child: Text(
@@ -78,18 +85,43 @@ class AssessmentScreen extends StatelessWidget {
 
               const SizedBox(height: 10),
 
-              // ✅ Dynamic Chapter Name
-              Center(
-                child: Text(
-                  chapter,
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
+              // ✅ Chapter Selection with Dropdown
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Chapter:", style: TextStyle(fontSize: 16)),
+                  const SizedBox(width: 10),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: DropdownButton<int>(
+                      value: _selectedChapter,
+                      underline: Container(), // ✅ Removes default underline
+                      onChanged: (int? newValue) {
+                        setState(() {
+                          _selectedChapter = newValue!;
+                        });
+                      },
+                      items: [1, 2, 3, 4, 5].map<DropdownMenuItem<int>>(
+                            (int value) {
+                          return DropdownMenuItem<int>(
+                            value: value,
+                            child: Text("Chp $value", style: const TextStyle(fontSize: 16)),
+                          );
+                        },
+                      ).toList(),
+                    ),
+                  ),
+                ],
               ),
 
               const SizedBox(height: 10),
 
               // ✅ Classwork Section
-              const Text("Classwork:", style: TextStyle(fontSize: 16)),
+              Text("Classwork for Chapter $_selectedChapter:", style: const TextStyle(fontSize: 16)),
               Container(
                 width: double.infinity,
                 height: 100,
@@ -126,7 +158,7 @@ class AssessmentScreen extends StatelessWidget {
               const SizedBox(height: 10),
 
               // ✅ Homework Section
-              const Text("Homework:", style: TextStyle(fontSize: 16)),
+              Text("Homework for Chapter $_selectedChapter:", style: const TextStyle(fontSize: 16)),
               Container(
                 width: double.infinity,
                 height: 100,

@@ -25,7 +25,8 @@ class TimeTableScreen extends StatelessWidget {
                   child: Center(
                     child: Text(
                       "Timetable",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),
@@ -53,10 +54,14 @@ class TimeTableScreen extends StatelessWidget {
             Expanded(
               child: ListView(
                 children: [
-                  _buildTimetableCard(context, 1, "7:00 to 7:30", "English", "Miss Sharma"),
-                  _buildTimetableCard(context, 2, "8:00 to 8:30", "English", "Miss Sharma"),
-                  _buildTimetableCard(context, 3, "8:30 to 9:00", "Marathi", "Miss Sharma"),
-                  _buildTimetableCard(context, 4, "9:00 to 9:30", "Hindi", "Miss Sharma"),
+                  _buildTimetableCard(
+                      context, 1, "7:00 to 7:30", "English", "Miss Sharma"),
+                  _buildTimetableCard(
+                      context, 2, "8:00 to 8:30", "English", "Miss Sharma"),
+                  _buildTimetableCard(
+                      context, 3, "8:30 to 9:00", "Marathi", "Miss Sharma"),
+                  _buildTimetableCard(
+                      context, 4, "9:00 to 9:30", "Hindi", "Miss Sharma"),
 
                   // ✅ Break Section
                   const Padding(
@@ -73,10 +78,14 @@ class TimeTableScreen extends StatelessWidget {
                     ),
                   ),
 
-                  _buildTimetableCard(context, 5, "10:00 to 10:30", "Maths", "Mr. Verma"),
-                  _buildTimetableCard(context, 6, "10:30 to 11:00", "Science", "Mrs. Kapoor"),
-                  _buildTimetableCard(context, 7, "11:00 to 11:30", "History", "Miss Singh"),
-                  _buildTimetableCard(context, 8, "11:30 to 12:00", "Geography", "Mr. Sharma"),
+                  _buildTimetableCard(
+                      context, 5, "10:00 to 10:30", "Maths", "Mr. Verma"),
+                  _buildTimetableCard(
+                      context, 6, "10:30 to 11:00", "Science", "Mrs. Kapoor"),
+                  _buildTimetableCard(
+                      context, 7, "11:00 to 11:30", "History", "Miss Singh"),
+                  _buildTimetableCard(
+                      context, 8, "11:30 to 12:00", "Geography", "Mr. Sharma"),
                 ],
               ),
             ),
@@ -87,7 +96,9 @@ class TimeTableScreen extends StatelessWidget {
   }
 
   // ✅ Timetable Card Widget
-  Widget _buildTimetableCard(BuildContext context, int period, String time, String subject, String teacher) {
+// ✅ Timetable Card Widget
+  Widget _buildTimetableCard(BuildContext context, int period, String time,
+      String subject, String teacher) {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 6),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -97,18 +108,28 @@ class TimeTableScreen extends StatelessWidget {
           backgroundColor: Colors.blue,
           child: Text(
             period.toString(),
-            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold),
           ),
         ),
-        title: Text(subject, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-        subtitle: Text("$time | $teacher", style: const TextStyle(fontSize: 14)),
+        title: Text(subject,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        subtitle: Text(
+            "$time | $teacher", style: const TextStyle(fontSize: 14)),
 
-        // ✅ Using Named Navigation for Assessment Screen
+        // ✅ Navigate to TimetableAssessmentScreen with Subject Name
         trailing: TextButton(
           onPressed: () {
-            Navigator.pushNamed(context, AppRoutes.assessment);
+            Navigator.pushNamed(
+              context,
+              AppRoutes.timetableAssessment, // ✅ Use the correct route
+              arguments: {
+                'subject': subject, // ✅ Pass Subject Name
+              },
+            );
           },
-          child: const Text("View Assessment", style: TextStyle(color: Colors.blue)),
+          child: const Text(
+              "View Assessment", style: TextStyle(color: Colors.blue)),
         ),
       ),
     );
