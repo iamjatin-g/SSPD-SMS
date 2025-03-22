@@ -34,7 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               // Back Button & Centered Title
               Row(
                 children: const [
-                  BackButtonWidget(),
+                  BackButtonWidget(goHome:true),
                   Expanded(
                     child: Center(
                       child: Text(

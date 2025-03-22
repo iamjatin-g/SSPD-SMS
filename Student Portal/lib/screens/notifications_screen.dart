@@ -17,7 +17,7 @@ class NotificationsScreen extends StatelessWidget {
           // **Back Button & Title**
           Row(
             children: const [
-              BackButtonWidget(),
+              BackButtonWidget(goHome:true),
               Expanded(
                 child: Center(
                   child: Text(

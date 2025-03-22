@@ -20,7 +20,7 @@ class TimeTableScreen extends StatelessWidget {
             // ✅ Back Button & Title (Centered)
             Row(
               children: const [
-                BackButtonWidget(),
+                BackButtonWidget(goHome:true),
                 Expanded(
                   child: Center(
                     child: Text(
