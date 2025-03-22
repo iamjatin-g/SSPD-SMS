@@ -63,9 +63,9 @@ class ExamTimetableScreen extends StatelessWidget {
             Expanded(
               child: ListView(
                 children: [
-                  _buildTimetableCard("1 Mar", "English"),
-                  _buildTimetableCard("2 Mar", "Maths"),
-                  _buildTimetableCard("3 Mar", "Science"),
+                  _buildTimetableCard("1 Mar", "English", "10:00 AM - 12:00 PM"),
+                  _buildTimetableCard("2 Mar", "Maths", "12:30 PM - 02:30 PM"),
+                  _buildTimetableCard("3 Mar", "Science", "03:00 PM - 05:00 PM"),
                 ],
               ),
             ),
@@ -76,23 +76,36 @@ class ExamTimetableScreen extends StatelessWidget {
   }
 
   // **Timetable Card UI**
-  Widget _buildTimetableCard(String date, String subject) {
+  Widget _buildTimetableCard(String date, String subject, String time) {
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.blueAccent, width: 1.5),
         borderRadius: BorderRadius.circular(5),
       ),
-      child: ListTile(
-        leading: Container(
-          padding: const EdgeInsets.all(8),
-          color: Colors.blue,
-          child: Text(
-            date,
-            style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // **Date Box**
+          Container(
+            padding: const EdgeInsets.all(8),
+            color: Colors.blue,
+            child: Text(
+              date,
+              style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+            ),
           ),
-        ),
-        title: Text(subject, style: const TextStyle(fontSize: 16)),
+
+          // **Subject Name**
+          Text(subject, style: const TextStyle(fontSize: 16)),
+
+          // **Exam Timings (Right Aligned)**
+          Text(
+            time,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.blueAccent),
+          ),
+        ],
       ),
     );
   }
