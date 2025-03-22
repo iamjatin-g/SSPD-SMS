@@ -2,8 +2,34 @@ import 'package:flutter/material.dart';
 import '../widgets/base_screen.dart';
 import '../widgets/back_button_widget.dart';
 
-class ExamTimetableScreen extends StatelessWidget {
+class ExamTimetableScreen extends StatefulWidget {
   const ExamTimetableScreen({super.key});
+
+  @override
+  _ExamTimetableScreenState createState() => _ExamTimetableScreenState();
+}
+
+class _ExamTimetableScreenState extends State<ExamTimetableScreen> {
+  int _selectedSemester = 3; // Default semester
+
+  // **Exam schedules for different semesters**
+  final Map<int, List<Map<String, String>>> examSchedules = {
+    3: [
+      {"date": "1 Mar", "subject": "English", "time": "10:00 AM - 12:00 PM"},
+      {"date": "2 Mar", "subject": "Maths", "time": "12:30 PM - 02:30 PM"},
+      {"date": "3 Mar", "subject": "Science", "time": "03:00 PM - 05:00 PM"},
+    ],
+    4: [
+      {"date": "5 Mar", "subject": "Physics", "time": "09:00 AM - 11:00 AM"},
+      {"date": "6 Mar", "subject": "Chemistry", "time": "11:30 AM - 01:30 PM"},
+      {"date": "7 Mar", "subject": "Biology", "time": "02:00 PM - 04:00 PM"},
+    ],
+    5: [
+      {"date": "10 Mar", "subject": "History", "time": "08:00 AM - 10:00 AM"},
+      {"date": "11 Mar", "subject": "Geography", "time": "10:30 AM - 12:30 PM"},
+      {"date": "12 Mar", "subject": "Political Science", "time": "01:00 PM - 03:00 PM"},
+    ],
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +69,30 @@ class ExamTimetableScreen extends StatelessWidget {
             ),
             const SizedBox(height: 10),
 
+            // **Semester Dropdown**
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text("Semester: ", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                const SizedBox(width: 10),
+                DropdownButton<int>(
+                  value: _selectedSemester,
+                  items: [3, 4, 5].map((int semester) {
+                    return DropdownMenuItem<int>(
+                      value: semester,
+                      child: Text("Sem $semester", style: const TextStyle(fontSize: 16)),
+                    );
+                  }).toList(),
+                  onChanged: (int? newValue) {
+                    setState(() {
+                      _selectedSemester = newValue!;
+                    });
+                  },
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+
             // **Timetable Header**
             const Center(
               child: Text(
@@ -59,14 +109,14 @@ class ExamTimetableScreen extends StatelessWidget {
             ),
             const SizedBox(height: 10),
 
-            // **Exam Schedule**
+            // **Exam Schedule (Dynamically Updated)**
             Expanded(
-              child: ListView(
-                children: [
-                  _buildTimetableCard("1 Mar", "English", "10:00 AM - 12:00 PM"),
-                  _buildTimetableCard("2 Mar", "Maths", "12:30 PM - 02:30 PM"),
-                  _buildTimetableCard("3 Mar", "Science", "03:00 PM - 05:00 PM"),
-                ],
+              child: ListView.builder(
+                itemCount: examSchedules[_selectedSemester]!.length,
+                itemBuilder: (context, index) {
+                  var schedule = examSchedules[_selectedSemester]![index];
+                  return _buildTimetableCard(schedule["date"]!, schedule["subject"]!, schedule["time"]!);
+                },
               ),
             ),
           ],
