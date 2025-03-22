@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import '../widgets/base_screen.dart';
-import '../widgets/back_button_widget.dart'; // ✅ Import BackButtonWidget
+import '../widgets/back_button_widget.dart';
 
 class AssessmentScreen extends StatelessWidget {
   const AssessmentScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // ✅ Retrieve subject and chapter from arguments
+    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+    final String subject = args?['subject'] ?? "Subject";
+    final String chapter = args?['chapter'] ?? "Chapter";
+
     return BaseScreen(
-      selectedIndex: 1, // ✅ No bottom navbar highlight needed
+      selectedIndex: 1,
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(12.0),
@@ -17,7 +22,7 @@ class AssessmentScreen extends StatelessWidget {
             children: [
               const SizedBox(height: 10),
 
-              // ✅ Back Button & Title (Centered)
+              // ✅ Back Button & Title
               Row(
                 children: const [
                   BackButtonWidget(),
@@ -29,13 +34,13 @@ class AssessmentScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(width: 48), // Keeps title centered
+                  SizedBox(width: 48),
                 ],
               ),
 
               const SizedBox(height: 10),
 
-              // ✅ Date Display (Right-aligned)
+              // ✅ Date Display
               const Align(
                 alignment: Alignment.centerRight,
                 child: Text(
@@ -63,34 +68,22 @@ class AssessmentScreen extends StatelessWidget {
 
               const SizedBox(height: 10),
 
-              // ✅ Subject Name (Always English)
-              const Center(
+              // ✅ Dynamic Subject Name
+              Center(
                 child: Text(
-                  "English",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  subject,
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
 
               const SizedBox(height: 10),
 
-              // ✅ Chapter Selection
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text("Chapter:", style: TextStyle(fontSize: 16)),
-                  const SizedBox(width: 10),
-                  Container(
-                    width: 40,
-                    height: 30,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: const Center(
-                      child: Text("V", style: TextStyle(fontSize: 16)),
-                    ),
-                  ),
-                ],
+              // ✅ Dynamic Chapter Name
+              Center(
+                child: Text(
+                  chapter,
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
               ),
 
               const SizedBox(height: 10),

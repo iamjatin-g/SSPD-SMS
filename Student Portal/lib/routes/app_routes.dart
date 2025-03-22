@@ -67,7 +67,11 @@ class AppRoutes {
       case profile:
         return MaterialPageRoute(builder: (_) => const ProfileScreen());
       case assessment:
-        return MaterialPageRoute(builder: (_) => const AssessmentScreen());
+        final args = settings.arguments as Map<String, dynamic>?;
+        return MaterialPageRoute(
+          builder: (_) => AssessmentScreen(),
+          settings: RouteSettings(arguments: args), // ✅ Pass subject and chapter
+        );
       case syllabusDetails:
         final args = settings.arguments as Map<String, dynamic>?;
         return MaterialPageRoute(

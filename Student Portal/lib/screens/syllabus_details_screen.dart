@@ -69,9 +69,9 @@ class SyllabusDetailsScreen extends StatelessWidget {
             Expanded(
               child: ListView(
                 children: [
-                  _buildChapterList(context, "Chp 1", subject),
-                  _buildChapterList(context, "Chp 2", subject),
-                  _buildChapterList(context, "Chp 3", subject),
+                  _buildChapterList(context, "Chapter 1", subject),
+                  _buildChapterList(context, "Chapter 2", subject),
+                  _buildChapterList(context, "Chapter 3", subject),
                 ],
               ),
             ),
@@ -133,7 +133,14 @@ class SyllabusDetailsScreen extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, AppRoutes.assessment);
+              Navigator.pushNamed(
+                context,
+                AppRoutes.assessment,
+                arguments: {
+                  'subject': subject,
+                  'chapter': chapter,
+                },
+              );
             },
             child: const Text(
               "View Assessment",
