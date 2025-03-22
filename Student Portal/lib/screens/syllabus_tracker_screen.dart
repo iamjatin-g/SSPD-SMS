@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/base_screen.dart';
-import '../routes/app_routes.dart'; // ✅ Import AppRoutes
-import '../widgets/back_button_widget.dart'; // ✅ Import Back Button Widget
+import '../routes/app_routes.dart';
+import '../widgets/back_button_widget.dart';
 
 class SyllabusTrackerScreen extends StatelessWidget {
   const SyllabusTrackerScreen({super.key});
@@ -9,7 +9,7 @@ class SyllabusTrackerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
-      selectedIndex: 0, // ✅ Correct index for navigation
+      selectedIndex: 0,
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(
@@ -17,7 +17,7 @@ class SyllabusTrackerScreen extends StatelessWidget {
           children: [
             const SizedBox(height: 10),
 
-            // ✅ Back Button & Title (Centered)
+            // ✅ Back Button & Title
             Row(
               children: const [
                 BackButtonWidget(),
@@ -29,7 +29,7 @@ class SyllabusTrackerScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(width: 48), // Keeps title centered
+                SizedBox(width: 48),
               ],
             ),
 
@@ -102,7 +102,11 @@ class SyllabusTrackerScreen extends StatelessWidget {
         title: Text(subject, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         trailing: TextButton(
           onPressed: () {
-            Navigator.pushNamed(context, AppRoutes.syllabusDetails);
+            Navigator.pushNamed(
+              context,
+              AppRoutes.syllabusDetails,
+              arguments: {'subject': subject},
+            );
           },
           child: const Text("View", style: TextStyle(fontSize: 16, color: Colors.blue)),
         ),

@@ -69,7 +69,12 @@ class AppRoutes {
       case assessment:
         return MaterialPageRoute(builder: (_) => const AssessmentScreen());
       case syllabusDetails:
-        return MaterialPageRoute(builder: (_) => const SyllabusDetailsScreen());
+        final args = settings.arguments as Map<String, dynamic>?;
+        return MaterialPageRoute(
+          builder: (_) => SyllabusDetailsScreen(),
+          settings: RouteSettings(arguments: args),
+        );
+
       case examTimetable:
         return MaterialPageRoute(builder: (_) => const ExamTimetableScreen());
       case viewInboxNote:

@@ -8,6 +8,10 @@ class SyllabusDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ✅ Retrieve subject name from arguments
+    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+    final String subject = args?['subject'] ?? "Subject";
+
     return BaseScreen(
       selectedIndex: 0,
       child: Padding(
@@ -29,7 +33,7 @@ class SyllabusDetailsScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(width: 48), // Keeps title centered
+                SizedBox(width: 48),
               ],
             ),
 
@@ -51,10 +55,11 @@ class SyllabusDetailsScreen extends StatelessWidget {
 
             const SizedBox(height: 10),
 
-            const Center(
+            // ✅ Dynamic Subject Name
+            Center(
               child: Text(
-                "English",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                subject,
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
 
@@ -64,35 +69,9 @@ class SyllabusDetailsScreen extends StatelessWidget {
             Expanded(
               child: ListView(
                 children: [
-                  const Text(
-                    "Chp 1:",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  syllabusItem(context, "1", "English", "Chp 1", "Miss Sharma"),
-                  syllabusItem(context, "2", "English", "Chp 1", "Miss Sharma"),
-                  syllabusItem(context, "3", "English", "Chp 1", "Miss Sharma"),
-                  syllabusItem(context, "4", "English", "Chp 1", "Miss Sharma"),
-                  const SizedBox(height: 10),
-
-                  const Text(
-                    "Chp 2:",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  syllabusItem(context, "1", "English", "Chp 2", "Miss Sharma"),
-                  syllabusItem(context, "2", "English", "Chp 2", "Miss Sharma"),
-                  syllabusItem(context, "3", "English", "Chp 2", "Miss Sharma"),
-                  syllabusItem(context, "4", "English", "Chp 2", "Miss Sharma"),
-                  const SizedBox(height: 10),
-
-                  const Text(
-                    "Chp 3:",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  syllabusItem(context, "1", "English", "Chp 3", "Miss Sharma"),
-                  syllabusItem(context, "2", "English", "Chp 3", "Miss Sharma"),
-                  syllabusItem(context, "3", "English", "Chp 3", "Miss Sharma"),
-                  syllabusItem(context, "4", "English", "Chp 3", "Miss Sharma"),
-                  const SizedBox(height: 10),
+                  _buildChapterList(context, "Chp 1", subject),
+                  _buildChapterList(context, "Chp 2", subject),
+                  _buildChapterList(context, "Chp 3", subject),
                 ],
               ),
             ),
@@ -103,6 +82,23 @@ class SyllabusDetailsScreen extends StatelessWidget {
   }
 
   // ✅ Function to Build Syllabus Items with Navigation to Assessment Screen
+  Widget _buildChapterList(BuildContext context, String chapter, String subject) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          chapter,
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        syllabusItem(context, "1", subject, chapter, "Miss Sharma"),
+        syllabusItem(context, "2", subject, chapter, "Miss Sharma"),
+        syllabusItem(context, "3", subject, chapter, "Miss Sharma"),
+        syllabusItem(context, "4", subject, chapter, "Miss Sharma"),
+        const SizedBox(height: 10),
+      ],
+    );
+  }
+
   Widget syllabusItem(BuildContext context, String number, String subject, String chapter, String teacher) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4),
