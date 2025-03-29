@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../screens/login_screen.dart';
 import '../screens/home_screen.dart';
 import '../screens/attendance_screen.dart';
 import '../screens/exams_screen.dart';
@@ -20,6 +21,7 @@ import '../screens/add_note_screen.dart';
 import '../screens/timetable_assessment_screen.dart';
 
 class AppRoutes {
+  static const String login = '/login';
   static const String home = '/home';
   static const String attendance = '/attendance';
   static const String diary = '/diary';
@@ -42,6 +44,8 @@ class AppRoutes {
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case login:
+        return MaterialPageRoute(builder: (_) => const LoginScreen());
       case home:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
       case attendance:

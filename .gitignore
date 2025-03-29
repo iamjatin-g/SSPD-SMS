@@ -1,3 +1,4 @@
 node_modules/
 Student Portal/.idea
 Student Portal/build
+Student Portal/backend/.env
