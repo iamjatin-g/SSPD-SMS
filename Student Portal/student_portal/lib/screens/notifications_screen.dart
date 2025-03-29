@@ -1,32 +1,9 @@
 import 'package:flutter/material.dart';
 import '../widgets/base_screen.dart';
 import '../widgets/back_button_widget.dart';
-import '../services/api_service.dart';
 
-class NotificationsScreen extends StatefulWidget {
+class NotificationsScreen extends StatelessWidget {
   const NotificationsScreen({super.key});
-
-  @override
-  _NotificationsScreenState createState() => _NotificationsScreenState();
-}
-
-class _NotificationsScreenState extends State<NotificationsScreen> {
-  List<Map<String, String>> notifications = [];
-  bool isLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadNotifications();
-  }
-
-  Future<void> _loadNotifications() async {
-    List<Map<String, String>> data = await ApiService.fetchNotifications();
-    setState(() {
-      notifications = data;
-      isLoading = false;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +17,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           // **Back Button & Title**
           Row(
             children: const [
-              BackButtonWidget(goHome: true),
+              BackButtonWidget(goHome:true),
               Expanded(
                 child: Center(
                   child: Text(
@@ -97,11 +74,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
           // **Notifications List**
           Expanded(
-            child: isLoading
-                ? const Center(child: CircularProgressIndicator()) // Show loader while fetching
-                : notifications.isEmpty
-                ? const Center(child: Text("No notifications available")) // Show message if empty
-                : ListView.builder(
+            child: ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               itemCount: notifications.length,
               itemBuilder: (context, index) {
@@ -115,7 +88,23 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   }
 }
 
-// **Notification Card Widget**
+// Dummy Notification Data
+final List<Map<String, String>> notifications = [
+  {
+    "id": "1",
+    "title": "Miss Susexna Send Announcement",
+    "description": "Holiday on 26 Feb",
+    "date": "15 Feb 2025",
+  },
+  {
+    "id": "2",
+    "title": "Mr. John Parents Send Leave Request",
+    "description": "Leave Request on 21 Feb",
+    "date": "14 Feb 2025",
+  },
+];
+
+// Notification Card Widget
 class NotificationCard extends StatelessWidget {
   final Map<String, String> notification;
   const NotificationCard({super.key, required this.notification});

@@ -2,28 +2,35 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  static const String baseUrl = "http://10.0.2.2:3000"; // Update if using an emulator
+  static const String _baseUrl =
+      "http://10.0.2.2:3000"; // ✅ For Android Emulator
 
-  // Fetch Notifications from Backend
-  static Future<List<Map<String, String>>> fetchNotifications() async {
+  static Future<Map<String, dynamic>> login(
+    String username,
+    String password,
+  ) async {
     try {
-      final response = await http.get(Uri.parse("$baseUrl/notifications"));
+      final response = await http.post(
+        Uri.parse("$_baseUrl/login"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"username": username, "password": password}),
+      );
 
       if (response.statusCode == 200) {
-        List<dynamic> data = jsonDecode(response.body);
-        return data.map((item) =>
-        {
-          "id": item["id"].toString(),
-          "title": item["title"].toString(),
-          "description": item["description"].toString(),
-          "date": item["date"].toString(),
-        }).toList();
+        return jsonDecode(response.body);
       } else {
-        throw Exception("Failed to load notifications");
+        return {
+          "success": false,
+          "message":
+              jsonDecode(response.body)["message"] ?? "Invalid credentials",
+        };
       }
+    } on FormatException {
+      return {"success": false, "message": "Invalid response from server"};
+    } on http.ClientException {
+      return {"success": false, "message": "Network error, check connection"};
     } catch (e) {
-      print("Error fetching notifications: $e");
-      return [];
+      return {"success": false, "message": "Unexpected error: ${e.toString()}"};
     }
   }
 }
