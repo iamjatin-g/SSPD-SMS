@@ -124,6 +124,22 @@ app.get("/events", async (req, res) => {
   }
 });
 
+app.get("/notifications", async (req, res) => {
+  try {
+    const latestEvent = await Event.findOne().sort({ _id: -1 }); // Fetch latest event
+
+    if (!latestEvent) {
+      return res.status(200).json({ success: true, message: "No new events", event: null });
+    }
+
+    res.status(200).json({ success: true, event: latestEvent });
+  } catch (error) {
+    console.error("Error fetching notifications:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
+
 /**
  * ✅ Start Server
  */

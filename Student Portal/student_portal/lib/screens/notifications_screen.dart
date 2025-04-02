@@ -1,9 +1,32 @@
 import 'package:flutter/material.dart';
 import '../widgets/base_screen.dart';
 import '../widgets/back_button_widget.dart';
+import '../services/api_service.dart'; // Import API service
 
-class NotificationsScreen extends StatelessWidget {
+class NotificationsScreen extends StatefulWidget {
   const NotificationsScreen({super.key});
+
+  @override
+  _NotificationsScreenState createState() => _NotificationsScreenState();
+}
+
+class _NotificationsScreenState extends State<NotificationsScreen> {
+  Map<String, dynamic>? _latestEvent;
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadLatestEvent();
+  }
+
+  Future<void> _loadLatestEvent() async {
+    final latestEvent = await ApiService.fetchLatestEvent();
+    setState(() {
+      _latestEvent = latestEvent;
+      _isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +40,7 @@ class NotificationsScreen extends StatelessWidget {
           // **Back Button & Title**
           Row(
             children: const [
-              BackButtonWidget(goHome:true),
+              BackButtonWidget(goHome: true),
               Expanded(
                 child: Center(
                   child: Text(
@@ -32,14 +55,14 @@ class NotificationsScreen extends StatelessWidget {
 
           const SizedBox(height: 10),
 
-          // **Header with Date**
+          // **Header: Latest Event**
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: const [
                 Text(
-                  "15 Feb 2025 | Sat",
+                  "Latest Event",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ],
@@ -54,8 +77,8 @@ class NotificationsScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Standard : 5th", style: TextStyle(fontSize: 16)),
-                Text("Division: A", style: TextStyle(fontSize: 16)),
+                Text("Standard: 5th", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                Text("Division: A", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
               ],
             ),
           ),
@@ -72,100 +95,96 @@ class NotificationsScreen extends StatelessWidget {
 
           const SizedBox(height: 10),
 
-          // **Notifications List**
-          Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              itemCount: notifications.length,
-              itemBuilder: (context, index) {
-                return NotificationCard(notification: notifications[index]);
-              },
-            ),
+          // **Latest Event**
+          _isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : _latestEvent == null
+              ? const Center(child: Text("No new events"))
+              : Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: NotificationCard(event: _latestEvent!),
           ),
+
+          const SizedBox(height: 10),
         ],
       ),
     );
   }
 }
 
-// Dummy Notification Data
-final List<Map<String, String>> notifications = [
-  {
-    "id": "1",
-    "title": "Miss Susexna Send Announcement",
-    "description": "Holiday on 26 Feb",
-    "date": "15 Feb 2025",
-  },
-  {
-    "id": "2",
-    "title": "Mr. John Parents Send Leave Request",
-    "description": "Leave Request on 21 Feb",
-    "date": "14 Feb 2025",
-  },
-];
-
-// Notification Card Widget
+// **Notification Card Widget (View Button on the Right)**
 class NotificationCard extends StatelessWidget {
-  final Map<String, String> notification;
-  const NotificationCard({super.key, required this.notification});
+  final Map<String, dynamic> event;
+  const NotificationCard({super.key, required this.event});
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.only(bottom: 10),
-      elevation: 3,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(12.0),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // **Number Box**
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: Text(
-                notification["id"]!,
-                style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-            ),
-            const SizedBox(width: 10),
-
-            // **Notification Content**
+            // **Event Details (Left Side)**
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // **Event Name**
                   Text(
-                    notification["title"]!,
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    event["name"] ?? "Event Name",
+                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  Text(
-                    notification["description"]!,
-                    style: const TextStyle(fontSize: 14, color: Colors.grey),
+                  const SizedBox(height: 5),
+
+                  // **Event Date & Venue**
+                  Row(
+                    children: [
+                      const Icon(Icons.event, color: Colors.blue, size: 18),
+                      const SizedBox(width: 5),
+                      Text(
+                        event["date"] ?? "Date not available",
+                        style: const TextStyle(fontSize: 14, color: Colors.grey),
+                      ),
+                      const SizedBox(width: 10),
+                      const Icon(Icons.location_on, color: Colors.red, size: 18),
+                      const SizedBox(width: 5),
+                      Text(
+                        event["venue"] ?? "Venue not available",
+                        style: const TextStyle(fontSize: 14, color: Colors.grey),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 5),
+
+                  // **Managed By**
+                  Row(
+                    children: [
+                      const Icon(Icons.person, color: Colors.green, size: 18),
+                      const SizedBox(width: 5),
+                      Text(
+                        "Managed by: ${event["managedBy"] ?? "N/A"}",
+                        style: const TextStyle(fontSize: 14),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
 
-            // **Date & View Button**
-            Column(
-              children: [
-                Text(
-                  notification["date"]!,
-                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    "View",
-                    style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
+            // **View Button (Right Side)**
+            TextButton(
+              onPressed: () {
+                // Handle View Button Click
+                print("View Event: ${event["name"]}");
+              },
+              child: const Text(
+                "View",
+                style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+              ),
             ),
           ],
         ),

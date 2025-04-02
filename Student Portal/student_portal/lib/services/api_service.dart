@@ -52,4 +52,20 @@ class ApiService {
     }
   }
 
+  static Future<Map<String, dynamic>?> fetchLatestEvent() async {
+    try {
+      final response = await http.get(Uri.parse("$_baseUrl/events")); // ✅ Use existing `/events` endpoint
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (data["success"] && data["events"] is List && data["events"].isNotEmpty) {
+          return data["events"].last; // ✅ Return the latest event
+        }
+      }
+    } catch (e) {
+      print("Error fetching latest event: $e");
+    }
+    return null;
+  }
+
 }
