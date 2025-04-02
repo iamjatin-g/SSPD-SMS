@@ -1,9 +1,32 @@
 import 'package:flutter/material.dart';
 import '../widgets/base_screen.dart';
-import '../widgets/back_button_widget.dart'; // Import BackButtonWidget
+import '../widgets/back_button_widget.dart';
+import '../services/api_service.dart';
 
-class EventsScreen extends StatelessWidget {
+class EventsScreen extends StatefulWidget {
   const EventsScreen({super.key});
+
+  @override
+  State<EventsScreen> createState() => _EventsScreenState();
+}
+
+class _EventsScreenState extends State<EventsScreen> {
+  List<Map<String, dynamic>> _events = [];
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadEvents();
+  }
+
+  Future<void> _loadEvents() async {
+    final events = await ApiService.fetchEvents();
+    setState(() {
+      _events = events;
+      _isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +38,7 @@ class EventsScreen extends StatelessWidget {
           // **AppBar with Back Button**
           const Padding(
             padding: EdgeInsets.only(left: 8.0, top: 8.0),
-            child: BackButtonWidget(), // Using BackButtonWidget
+            child: BackButtonWidget(),
           ),
 
           // **Title & Date**
@@ -79,11 +102,18 @@ class EventsScreen extends StatelessWidget {
 
           // **Event List**
           Expanded(
-            child: ListView.builder(
-              itemCount: 4, // Showing 4 dummy events
+            child: _isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : _events.isEmpty
+                ? const Center(child: Text("No events found"))
+                : ListView.builder(
+              itemCount: _events.length,
               itemBuilder: (context, index) {
+                final event = _events[index];
+
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16, vertical: 4),
                   child: Card(
                     elevation: 2,
                     child: ListTile(
@@ -91,17 +121,22 @@ class EventsScreen extends StatelessWidget {
                         backgroundColor: Colors.blue,
                         child: Text(
                           "${index + 1}",
-                          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
-                      title: const Text(
-                        "Event Name",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      title: Text(
+                        event["name"] ?? "Unknown Event",
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold),
                       ),
-                      subtitle: const Text("Date | Day | Venue"),
-                      trailing: const Text(
-                        "Managed by Miss Sharma",
-                        style: TextStyle(fontSize: 12, color: Colors.grey),
+                      subtitle: Text(
+                          "${event["date"]} | ${event["venue"]}"),
+                      trailing: Text(
+                        "Managed by ${event["managedBy"] ?? "Unknown"}",
+                        style: const TextStyle(
+                            fontSize: 12, color: Colors.grey),
                       ),
                     ),
                   ),

@@ -6,7 +6,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-const User = require("./models/users"); // ✅ Corrected import
+const User = require("./models/users"); // ✅ User Model (student_portal)
+const EventSchema = require("./models/events").schema; // ✅ Import only Schema (not model)
 
 const app = express();
 const PORT = 3000;
@@ -15,13 +16,35 @@ const PORT = 3000;
 app.use(cors());
 app.use(bodyParser.json());
 
-// ✅ Connect to MongoDB
+/**
+ * ✅ Connect to student_portal (Login System)
+ */
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ Connected to MongoDB"))
-  .catch((err) => console.error("❌ MongoDB Connection Error:", err));
+  .then(() => console.log("✅ Connected to student_portal database"))
+  .catch((err) => console.error("❌ Student DB Connection Error:", err));
 
-// ✅ Register API
+/**
+ * ✅ Connect to teacher_portal (Events)
+ */
+const teacherDB = mongoose.createConnection(process.env.TEACHER_MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+teacherDB.on("connected", () =>
+  console.log("✅ Connected to teacher_portal database")
+);
+teacherDB.on("error", (err) =>
+  console.error("❌ Teacher DB Connection Error:", err)
+);
+
+// ✅ Define Event model for teacher_portal
+const Event = teacherDB.model("Event", EventSchema);
+
+/**
+ * ✅ Register API (student_portal)
+ */
 app.post("/register", async (req, res) => {
   const { username, password } = req.body;
 
@@ -46,7 +69,9 @@ app.post("/register", async (req, res) => {
   }
 });
 
-// ✅ Login API
+/**
+ * ✅ Login API (student_portal)
+ */
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
@@ -81,7 +106,27 @@ app.post("/login", async (req, res) => {
   }
 });
 
-// ✅ Start Server
+app.get("/events", async (req, res) => {
+  try {
+    const events = await Event.find();
+    // console.log("🔍 Events found:", events); // ✅ Debugging line
+
+    if (events.length === 0) {
+      return res
+        .status(200)
+        .json({ success: true, message: "No events found", events: [] });
+    }
+
+    res.status(200).json({ success: true, events });
+  } catch (error) {
+    console.error("Error fetching events:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
+/**
+ * ✅ Start Server
+ */
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`✅ Server running on port ${PORT}`);
 });

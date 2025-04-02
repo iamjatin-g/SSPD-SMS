@@ -33,4 +33,23 @@ class ApiService {
       return {"success": false, "message": "Unexpected error: ${e.toString()}"};
     }
   }
+
+  // ✅ Fetch Events
+  static Future<List<Map<String, dynamic>>> fetchEvents() async {
+    try {
+      final response = await http.get(Uri.parse("$_baseUrl/events"));
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (data['success']) {
+          return List<Map<String, dynamic>>.from(data['events']);
+        }
+      }
+      return [];
+    } catch (e) {
+      print("Error fetching events: $e");
+      return [];
+    }
+  }
+
 }
