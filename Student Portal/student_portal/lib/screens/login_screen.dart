@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'home_screen.dart';
+import '../routes/app_routes.dart';
 import '../services/api_service.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -27,10 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
         final response = await ApiService.login(username, password);
 
         if (response['success']) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const HomeScreen()),
-          );
+          Navigator.pushReplacementNamed(context, AppRoutes.home);
         } else {
           _showSnackBar(response['message']);
         }
@@ -54,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
           // ✅ Background Image
           Positioned.fill(
             child: Image.asset(
-              "assets/images/background.jpg", // Replace with your image path
+              "assets/images/background.jpg",
               fit: BoxFit.cover,
             ),
           ),
@@ -64,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
             top: 40,
             left: 20,
             child: Image.asset(
-              "assets/images/logo_raw.jpg", // Replace with your logo path
+              "assets/images/logo_raw.jpg",
               width: 100,
             ),
           ),

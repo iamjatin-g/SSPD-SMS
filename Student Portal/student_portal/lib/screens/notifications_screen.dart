@@ -11,7 +11,7 @@ class NotificationsScreen extends StatefulWidget {
 }
 
 class _NotificationsScreenState extends State<NotificationsScreen> {
-  Map<String, dynamic>? _latestEvent;
+  List<Map<String, dynamic>> _notifications = [];
   bool _isLoading = true;
 
   @override
@@ -21,10 +21,25 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   }
 
   Future<void> _loadLatestEvent() async {
-    final latestEvent = await ApiService.fetchLatestEvent();
+    try {
+      final latestEvent = await ApiService.fetchLatestEvent();
+      setState(() {
+        if (latestEvent != null) {
+          _notifications.add(latestEvent);
+        }
+        _isLoading = false;
+      });
+    } catch (error) {
+      setState(() {
+        _isLoading = false;
+      });
+      print("Error fetching latest event: $error");
+    }
+  }
+
+  void _deleteNotification(int index) {
     setState(() {
-      _latestEvent = latestEvent;
-      _isLoading = false;
+      _notifications.removeAt(index);
     });
   }
 
@@ -95,14 +110,35 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
           const SizedBox(height: 10),
 
-          // **Latest Event**
-          _isLoading
-              ? const Center(child: CircularProgressIndicator())
-              : _latestEvent == null
-              ? const Center(child: Text("No new events"))
-              : Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: NotificationCard(event: _latestEvent!),
+          // **Notifications List**
+          Expanded(
+            child: _isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : _notifications.isEmpty
+                ? const Center(child: Text("No new events"))
+                : ListView.builder(
+              itemCount: _notifications.length,
+              itemBuilder: (context, index) {
+                final event = _notifications[index];
+                return Dismissible(
+                  key: Key(event["name"] ?? "event_$index"),
+                  direction: DismissDirection.endToStart,
+                  background: Container(
+                    color: Colors.red,
+                    alignment: Alignment.centerRight,
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: const Icon(Icons.delete, color: Colors.white),
+                  ),
+                  onDismissed: (direction) {
+                    _deleteNotification(index);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
+                    child: NotificationCard(event: event),
+                  ),
+                );
+              },
+            ),
           ),
 
           const SizedBox(height: 10),
@@ -112,7 +148,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   }
 }
 
-// **Notification Card Widget (View Button on the Right)**
+// **Notification Card Widget (Unchanged UI)**
 class NotificationCard extends StatelessWidget {
   final Map<String, dynamic> event;
   const NotificationCard({super.key, required this.event});
@@ -178,7 +214,6 @@ class NotificationCard extends StatelessWidget {
             // **View Button (Right Side)**
             TextButton(
               onPressed: () {
-                // Handle View Button Click
                 print("View Event: ${event["name"]}");
               },
               child: const Text(
