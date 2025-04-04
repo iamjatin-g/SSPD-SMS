@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/base_screen.dart';
 import '../routes/app_routes.dart';
-import '../widgets/back_button_widget.dart';
+import '../widgets/custom_header.dart'; // Import CustomHeader
 
 class SyllabusTrackerScreen extends StatelessWidget {
   const SyllabusTrackerScreen({super.key});
@@ -17,38 +17,8 @@ class SyllabusTrackerScreen extends StatelessWidget {
           children: [
             const SizedBox(height: 10),
 
-            // ✅ Back Button & Title
-            Row(
-              children: const [
-                BackButtonWidget(),
-                Expanded(
-                  child: Center(
-                    child: Text(
-                      "Syllabus Tracker",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 48),
-              ],
-            ),
-
-            const SizedBox(height: 10),
-
-            // ✅ Student Details
-            const Text(
-              "Standard: 5th  |  Division: A",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-
-            const SizedBox(height: 10),
-
-            const Center(
-              child: Text(
-                "Student Name",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-            ),
+            // ✅ Custom Header
+            const CustomHeader(title: "Syllabus Tracker"),
 
             const SizedBox(height: 10),
 
