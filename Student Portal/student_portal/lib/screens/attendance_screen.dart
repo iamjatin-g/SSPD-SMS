@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../widgets/base_screen.dart';
-import '../widgets/back_button_widget.dart';
+import '../widgets/custom_header.dart';
 
 class AttendanceScreen extends StatefulWidget {
   const AttendanceScreen({super.key});
@@ -25,45 +25,10 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // **Header with Back Button**
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const BackButtonWidget(),
-                  const Text(
-                    "Attendance",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(width: 48),
-                ],
-              ),
+              // Custom Header
+              const CustomHeader(title: "Attendance"),
 
               const SizedBox(height: 10),
-
-              // **Date Display**
-              Center(
-                child: Text(
-                  "${_focusedDay.day} ${_getMonthName(_focusedDay.month)} ${_focusedDay.year} | ${_getWeekdayName(_focusedDay.weekday)}",
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-              ),
-
-              const SizedBox(height: 10),
-
-              // **Student Info**
-              const Text("Standard: 5th", style: TextStyle(fontSize: 16)),
-              const Text("Division: A", style: TextStyle(fontSize: 16)),
-              const SizedBox(height: 15),
-
-              // **Student Name**
-              const Center(
-                child: Text(
-                  "Student Name",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-
-              const Divider(thickness: 1),
 
               // **"My Attendance" Title**
               const Center(
@@ -91,13 +56,13 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
 
               // **Fixed Calendar Widget (No Swipe Up/Down)**
               SizedBox(
-                height: 400, // ✅ Fixed height to prevent cutting
+                height: 400,
                 child: TableCalendar(
                   focusedDay: _focusedDay,
                   firstDay: DateTime(2000),
                   lastDay: DateTime(2100),
-                  calendarFormat: CalendarFormat.month, // ✅ Stays in month view
-                  availableCalendarFormats: const {CalendarFormat.month: 'Month'}, // ✅ Disables swipe up/down
+                  calendarFormat: CalendarFormat.month,
+                  availableCalendarFormats: const {CalendarFormat.month: 'Month'},
                   selectedDayPredicate: (day) {
                     return isSameDay(_selectedDay, day);
                   },
@@ -108,7 +73,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                     });
                   },
                   headerStyle: const HeaderStyle(
-                    formatButtonVisible: false, // ✅ Removes format change button
+                    formatButtonVisible: false,
                     titleCentered: true,
                     titleTextStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
@@ -125,7 +90,19 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     );
   }
 
-  // **Function to Get Month Name**
+  // **Widget for Legend Boxes**
+  Widget _buildLegendBox(Color color, String text) {
+    return Row(
+      children: [
+        Container(width: 16, height: 16, color: color),
+        const SizedBox(width: 5),
+        Text(text),
+      ],
+    );
+  }
+}
+
+// **Function to Get Month Name**
   String _getMonthName(int month) {
     const months = [
       "", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
@@ -139,14 +116,3 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     return weekdays[weekday];
   }
 
-  // **Widget for Legend Boxes**
-  Widget _buildLegendBox(Color color, String text) {
-    return Row(
-      children: [
-        Container(width: 16, height: 16, color: color),
-        const SizedBox(width: 5),
-        Text(text),
-      ],
-    );
-  }
-}
