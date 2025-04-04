@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/base_screen.dart';
-import '../widgets/back_button_widget.dart'; // Import BackButtonWidget
+import '../widgets/custom_header.dart'; // Import CustomHeader
 import '../routes/app_routes.dart';
 
 class ExamsScreen extends StatelessWidget {
@@ -15,50 +15,28 @@ class ExamsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // **Back Button & Centered Heading**
-            Row(
-              children: [
-                const BackButtonWidget(), // Back button
-                Expanded(
-                  child: Center(
-                    child: const Text(
-                      "Exams Record",
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 48), // To balance row spacing
-              ],
-            ),
+            // **Custom Header**
+            const CustomHeader(title: "Exams Record"),
 
             const SizedBox(height: 10),
 
-            // **Student Details**
-            const Text(
-              "Standard: 5th  |  Division: A",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "Student Name",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            // **View Timetable Button**
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  // Navigate to Timetable screen
+                  Navigator.pushNamed(context, AppRoutes.examTimetable);
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  foregroundColor: Colors.blue,
                 ),
-                TextButton(
-                  onPressed: () {
-                    // Navigate to Timetable screen
-                    Navigator.pushNamed(context, AppRoutes.examTimetable);
-                  },
-                  child: const Text(
-                    "View Timetable",
-                    style: TextStyle(color: Colors.blue, fontSize: 14),
-                  ),
-                ),
-              ],
+                child: const Text("View Timetable"),
+              ),
             ),
 
-            const SizedBox(height: 10),
+            const SizedBox(height: 5),
 
             // **Centered Exam Table**
             Expanded(
