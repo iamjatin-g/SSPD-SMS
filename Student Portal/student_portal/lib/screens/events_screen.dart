@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/base_screen.dart';
-import '../widgets/back_button_widget.dart';
+import '../widgets/custom_header.dart';
 import '../services/api_service.dart';
 
 class EventsScreen extends StatefulWidget {
@@ -32,94 +32,52 @@ class _EventsScreenState extends State<EventsScreen> {
   Widget build(BuildContext context) {
     return BaseScreen(
       selectedIndex: 0,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 10),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // **Custom Header (Same as ExamsScreen)**
+            const CustomHeader(title: "Events"),
 
-          // **Title with Back Button & Date (Styled like Notifications Screen)**
-          Row(
-            children: [
-              const BackButtonWidget(),
-              const Expanded(
-                child: Center(
-                  child: Text(
-                    "Events",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            const SizedBox(height: 10),
+
+            // **Search Bar**
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: "Search Event",
+                  prefixIcon: const Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: const BorderSide(color: Colors.blue),
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(right: 16.0),
-                child: Text(
-                  "15 Feb 2025 | Sat",
-                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 10),
-
-          // **Student Info**
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Standard : 5th", style: TextStyle(fontSize: 16)),
-                Text("Division : A", style: TextStyle(fontSize: 16)),
-              ],
             ),
-          ),
 
-          const SizedBox(height: 10),
+            const SizedBox(height: 10),
 
-          // **Student Name**
-          const Center(
-            child: Text(
-              "Student Name",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-          ),
-
-          const SizedBox(height: 10),
-
-          // **Search Bar**
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: "Search Event",
-                prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: const BorderSide(color: Colors.blue),
-                ),
+            // **Event List**
+            Expanded(
+              child: _isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : _events.isEmpty
+                  ? const Center(child: Text("No events found"))
+                  : ListView.builder(
+                itemCount: _events.length,
+                itemBuilder: (context, index) {
+                  final event = _events[index];
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                    child: EventCard(event: event),
+                  );
+                },
               ),
             ),
-          ),
-
-          const SizedBox(height: 10),
-
-          // **Event List**
-          Expanded(
-            child: _isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : _events.isEmpty
-                ? const Center(child: Text("No events found"))
-                : ListView.builder(
-              itemCount: _events.length,
-              itemBuilder: (context, index) {
-                final event = _events[index];
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                  child: EventCard(event: event),
-                );
-              },
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
