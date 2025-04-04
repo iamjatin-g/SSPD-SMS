@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import '../widgets/base_screen.dart';
 import '../widgets/back_button_widget.dart';
 
@@ -11,118 +10,124 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _dobController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _contactController = TextEditingController();
-  final TextEditingController _stdDivController = TextEditingController();
-  final TextEditingController _fatherNameController = TextEditingController();
-  final TextEditingController _fatherContactController = TextEditingController();
+  late Future<Map<String, String>> _profileData;
+
+  @override
+  void initState() {
+    super.initState();
+    _profileData = _fetchProfileData();
+  }
+
+  Future<Map<String, String>> _fetchProfileData() async {
+    // await Future.delayed(const Duration(seconds: 2)); // Simulate network delay
+
+    return {
+      "Name": "John Doe",
+      "DOB": "01/01/2000",
+      "E-mail": "johndoe@example.com",
+      "Contact No.": "9876543210",
+      "Std & Div": "10th - A",
+      "Father's Name": "Michael Doe",
+      "Father's Contact No.": "9876543211",
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
-      selectedIndex: 0, // Profile screen should not affect bottom nav selection
+      selectedIndex: 0,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 10),
+        child: Column(
+          children: [
+            _buildProfileHeader(),
+            const SizedBox(height: 20),
+            Expanded(
+              child: FutureBuilder<Map<String, String>>(
+                future: _profileData,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return const Center(child: Text("Failed to load profile"));
+                  }
 
-              // Back Button & Centered Title
-              Row(
-                children: const [
-                  BackButtonWidget(goHome:true),
-                  Expanded(
-                    child: Center(
-                      child: Text(
-                        "My Profile",
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 48), // Keeps title centered
-                ],
+                  final data = snapshot.data!;
+                  return ListView(
+                    children: [
+                      _buildProfileAvatar(),
+                      const SizedBox(height: 20),
+                      ...data.entries.map((entry) {
+                        return _buildInfoField(label: entry.key, value: entry.value);
+                      }).toList(),
+                    ],
+                  );
+                },
               ),
-
-              const SizedBox(height: 20),
-
-              const Center(
-                child: CircleAvatar(
-                  radius: 50,
-                  backgroundColor: Colors.grey,
-                  child: Icon(Icons.person, size: 60, color: Colors.white),
-                ),
-              ),
-
-              const SizedBox(height: 20),
-
-              // Name Field
-              _buildTextField(label: "Name", controller: _nameController),
-
-              // DOB Field
-              _buildTextField(
-                label: "DOB (DD/MM/YYYY)",
-                controller: _dobController,
-                inputType: TextInputType.datetime,
-                inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r"\d|/"))],
-              ),
-
-              // Email Field
-              _buildTextField(label: "E-mail", controller: _emailController, inputType: TextInputType.emailAddress),
-
-              // Contact Number Field
-              _buildTextField(
-                label: "Contact No.",
-                controller: _contactController,
-                inputType: TextInputType.phone,
-                maxLength: 10,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-              ),
-
-              // Std & Div Field
-              _buildTextField(label: "Std & Div", controller: _stdDivController),
-
-              // Father's Name Field
-              _buildTextField(label: "Father's Name", controller: _fatherNameController),
-
-              // Father's Contact Number Field
-              _buildTextField(
-                label: "Father's Contact No.",
-                controller: _fatherContactController,
-                inputType: TextInputType.phone,
-                maxLength: 10,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-              ),
-            ],
-          ),
+            ),
+            const SizedBox(height: 10),
+            _buildLogoutButton(),
+          ],
         ),
       ),
     );
   }
 
-  // Function to Create a Text Field
-  Widget _buildTextField({
-    required String label,
-    required TextEditingController controller,
-    TextInputType inputType = TextInputType.text,
-    List<TextInputFormatter>? inputFormatters,
-    int? maxLength,
-  }) {
+  Widget _buildProfileHeader() {
+    return Row(
+      children: const [
+        BackButtonWidget(goHome: true),
+        Expanded(
+          child: Center(
+            child: Text(
+              "My Profile",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
+        SizedBox(width: 48),
+      ],
+    );
+  }
+
+  Widget _buildProfileAvatar() {
+    return const Center(
+      child: CircleAvatar(
+        radius: 50,
+        backgroundColor: Colors.grey,
+        child: Icon(Icons.person, size: 60, color: Colors.white),
+      ),
+    );
+  }
+
+  Widget _buildInfoField({required String label, required String value}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: TextField(
-        controller: controller,
-        keyboardType: inputType,
-        maxLength: maxLength,
-        inputFormatters: inputFormatters,
         decoration: InputDecoration(
           labelText: label,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-          counterText: "", // Hide character counter when maxLength is used
         ),
+        controller: TextEditingController(text: value),
+        readOnly: true,
+      ),
+    );
+  }
+
+  Widget _buildLogoutButton() {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: () {
+          // Implement logout logic here
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.red,
+          foregroundColor: Colors.white,
+          padding: const EdgeInsets.symmetric(vertical: 14),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        ),
+        child: const Text("Logout", style: TextStyle(fontSize: 16)),
       ),
     );
   }
