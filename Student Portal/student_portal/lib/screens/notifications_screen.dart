@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/base_screen.dart';
-import '../widgets/back_button_widget.dart';
-import '../services/api_service.dart'; // Import API service
+import '../widgets/custom_header.dart';
+import '../services/api_service.dart';
 
 class NotificationsScreen extends StatefulWidget {
   const NotificationsScreen({super.key});
@@ -46,109 +46,55 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
-      selectedIndex: 2, // Notifications tab selected
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 10),
+      selectedIndex: 2,
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // **Custom Header (Same as Exams & Events Screens)**
+            const CustomHeader(title: "Notifications"),
 
-          // **Back Button & Title**
-          Row(
-            children: const [
-              BackButtonWidget(goHome: true),
-              Expanded(
-                child: Center(
-                  child: Text(
-                    "Notifications",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ),
+            const SizedBox(height: 10),
+
+            // **Notifications List**
+            Expanded(
+              child: _isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : _notifications.isEmpty
+                  ? const Center(child: Text("No new notifications"))
+                  : ListView.builder(
+                itemCount: _notifications.length,
+                itemBuilder: (context, index) {
+                  final event = _notifications[index];
+                  return Dismissible(
+                    key: Key(event["name"] ?? "event_$index"),
+                    direction: DismissDirection.endToStart,
+                    background: Container(
+                      color: Colors.red,
+                      alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: const Icon(Icons.delete, color: Colors.white),
+                    ),
+                    onDismissed: (direction) {
+                      _deleteNotification(index);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
+                      child: NotificationCard(event: event),
+                    ),
+                  );
+                },
               ),
-              SizedBox(width: 48), // Keeps the title centered
-            ],
-          ),
-
-          const SizedBox(height: 10),
-
-          // **Header: Latest Event**
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: const [
-                Text(
-                  "Latest Event",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-              ],
             ),
-          ),
-
-          const SizedBox(height: 10),
-
-          // **Student Details**
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Standard: 5th", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                Text("Division: A", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-              ],
-            ),
-          ),
-
-          const SizedBox(height: 10),
-
-          // **Student Name**
-          const Center(
-            child: Text(
-              "Student Name",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-          ),
-
-          const SizedBox(height: 10),
-
-          // **Notifications List**
-          Expanded(
-            child: _isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : _notifications.isEmpty
-                ? const Center(child: Text("No new events"))
-                : ListView.builder(
-              itemCount: _notifications.length,
-              itemBuilder: (context, index) {
-                final event = _notifications[index];
-                return Dismissible(
-                  key: Key(event["name"] ?? "event_$index"),
-                  direction: DismissDirection.endToStart,
-                  background: Container(
-                    color: Colors.red,
-                    alignment: Alignment.centerRight,
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: const Icon(Icons.delete, color: Colors.white),
-                  ),
-                  onDismissed: (direction) {
-                    _deleteNotification(index);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
-                    child: NotificationCard(event: event),
-                  ),
-                );
-              },
-            ),
-          ),
-
-          const SizedBox(height: 10),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
 
-// **Notification Card Widget (Unchanged UI)**
+// **Notification Card Widget**
 class NotificationCard extends StatelessWidget {
   final Map<String, dynamic> event;
   const NotificationCard({super.key, required this.event});
@@ -163,19 +109,17 @@ class NotificationCard extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // **Event Details (Left Side)**
+            // **Event Details**
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // **Event Name**
                   Text(
                     event["name"] ?? "Event Name",
                     style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 5),
 
-                  // **Event Date & Venue**
                   Row(
                     children: [
                       const Icon(Icons.event, color: Colors.blue, size: 18),
@@ -196,7 +140,6 @@ class NotificationCard extends StatelessWidget {
 
                   const SizedBox(height: 5),
 
-                  // **Managed By**
                   Row(
                     children: [
                       const Icon(Icons.person, color: Colors.green, size: 18),
@@ -211,7 +154,7 @@ class NotificationCard extends StatelessWidget {
               ),
             ),
 
-            // **View Button (Right Side)**
+            // **View Button**
             TextButton(
               onPressed: () {
                 print("View Event: ${event["name"]}");
