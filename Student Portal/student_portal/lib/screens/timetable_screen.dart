@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/base_screen.dart';
-import '../widgets/back_button_widget.dart'; // ✅ Import BackButtonWidget
-import '../routes/app_routes.dart'; // ✅ Import AppRoutes for Named Navigation
+import '../widgets/custom_header.dart'; // ✅ Import Custom Header
+import '../routes/app_routes.dart';
 
 class TimeTableScreen extends StatelessWidget {
   const TimeTableScreen({super.key});
@@ -9,46 +9,16 @@ class TimeTableScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
-      selectedIndex: 1, // ✅ Timetable tab
+      selectedIndex: 1,
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 10),
+            // ✅ Custom Header
+            const CustomHeader(title: "Timetable"),
 
-            // ✅ Back Button & Title (Centered)
-            Row(
-              children: const [
-                BackButtonWidget(goHome:true),
-                Expanded(
-                  child: Center(
-                    child: Text(
-                      "Timetable",
-                      style: TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 48), // ✅ Keeps title centered
-              ],
-            ),
-
-            const SizedBox(height: 10),
-
-            // ✅ Student Info
-            const Text(
-              "Standard: 5th  |  Division: A",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            const Center(
-              child: Text(
-                "Student Name",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-            ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 5),
 
             // ✅ Timetable List
             Expanded(
@@ -96,7 +66,6 @@ class TimeTableScreen extends StatelessWidget {
   }
 
   // ✅ Timetable Card Widget
-// ✅ Timetable Card Widget
   Widget _buildTimetableCard(BuildContext context, int period, String time,
       String subject, String teacher) {
     return Card(
@@ -122,9 +91,9 @@ class TimeTableScreen extends StatelessWidget {
           onPressed: () {
             Navigator.pushNamed(
               context,
-              AppRoutes.timetableAssessment, // ✅ Use the correct route
+              AppRoutes.timetableAssessment,
               arguments: {
-                'subject': subject, // ✅ Pass Subject Name
+                'subject': subject,
               },
             );
           },
