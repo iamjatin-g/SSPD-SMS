@@ -139,7 +139,6 @@ app.get("/notifications", async (req, res) => {
   }
 });
 
-
 /**
  * ✅ Start Server
  */
