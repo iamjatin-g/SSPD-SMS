@@ -11,114 +11,115 @@ class AttendanceScreen extends StatefulWidget {
 }
 
 class _AttendanceScreenState extends State<AttendanceScreen> {
-  CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _selectedDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
-      selectedIndex: 0, // Assuming Attendance is in index 1
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // **Header with Back Button**
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const BackButtonWidget(),
-                const Text(
-                  "Attendance",
+      selectedIndex: 0,
+      child: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // **Header with Back Button**
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const BackButtonWidget(),
+                  const Text(
+                    "Attendance",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(width: 48),
+                ],
+              ),
+
+              const SizedBox(height: 10),
+
+              // **Date Display**
+              Center(
+                child: Text(
+                  "${_focusedDay.day} ${_getMonthName(_focusedDay.month)} ${_focusedDay.year} | ${_getWeekdayName(_focusedDay.weekday)}",
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
+              // **Student Info**
+              const Text("Standard: 5th", style: TextStyle(fontSize: 16)),
+              const Text("Division: A", style: TextStyle(fontSize: 16)),
+              const SizedBox(height: 15),
+
+              // **Student Name**
+              const Center(
+                child: Text(
+                  "Student Name",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(width: 48), // To balance the alignment
-              ],
-            ),
-
-            const SizedBox(height: 10),
-
-            // **Date Display**
-            Center(
-              child: Text(
-                "${_focusedDay.day} ${_getMonthName(_focusedDay.month)} ${_focusedDay.year} | ${_getWeekdayName(_focusedDay.weekday)}",
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
-            ),
 
-            const SizedBox(height: 10),
+              const Divider(thickness: 1),
 
-            // **Student Info**
-            const Text("Standard : 5th", style: TextStyle(fontSize: 16)),
-            const Text("Division: A", style: TextStyle(fontSize: 16)),
-            const SizedBox(height: 15),
-
-            // **Student Name**
-            const Center(
-              child: Text(
-                "Student Name",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              // **"My Attendance" Title**
+              const Center(
+                child: Text(
+                  "My Attendance",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
 
-            const Divider(thickness: 1),
+              const SizedBox(height: 10),
 
-            // **"My Attendance" Title**
-            const Center(
-              child: Text(
-                "My Attendance",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              // **Attendance Legend**
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _buildLegendBox(Colors.blue, "Present"),
+                  const SizedBox(width: 15),
+                  _buildLegendBox(Colors.red, "Leave"),
+                  const SizedBox(width: 15),
+                  _buildLegendBox(Colors.yellow, "Holiday"),
+                ],
               ),
-            ),
 
-            const SizedBox(height: 10),
+              const SizedBox(height: 10),
 
-            // **Attendance Legend (Present, Leave, Holiday)**
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildLegendBox(Colors.blue, "Present"),
-                const SizedBox(width: 15),
-                _buildLegendBox(Colors.red, "Leave"),
-                const SizedBox(width: 15),
-                _buildLegendBox(Colors.yellow, "Holiday"),
-              ],
-            ),
-
-            const SizedBox(height: 10),
-
-            // **Calendar Widget**
-            TableCalendar(
-              focusedDay: _focusedDay,
-              firstDay: DateTime(2000),
-              lastDay: DateTime(2100),
-              calendarFormat: _calendarFormat,
-              selectedDayPredicate: (day) {
-                return isSameDay(_selectedDay, day);
-              },
-              onDaySelected: (selectedDay, focusedDay) {
-                setState(() {
-                  _selectedDay = selectedDay;
-                  _focusedDay = focusedDay;
-                });
-              },
-              onFormatChanged: (format) {
-                setState(() {
-                  _calendarFormat = format;
-                });
-              },
-              headerStyle: const HeaderStyle(
-                formatButtonVisible: false,
-                titleCentered: true,
-                titleTextStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              // **Fixed Calendar Widget (No Swipe Up/Down)**
+              SizedBox(
+                height: 400, // ✅ Fixed height to prevent cutting
+                child: TableCalendar(
+                  focusedDay: _focusedDay,
+                  firstDay: DateTime(2000),
+                  lastDay: DateTime(2100),
+                  calendarFormat: CalendarFormat.month, // ✅ Stays in month view
+                  availableCalendarFormats: const {CalendarFormat.month: 'Month'}, // ✅ Disables swipe up/down
+                  selectedDayPredicate: (day) {
+                    return isSameDay(_selectedDay, day);
+                  },
+                  onDaySelected: (selectedDay, focusedDay) {
+                    setState(() {
+                      _selectedDay = selectedDay;
+                      _focusedDay = focusedDay;
+                    });
+                  },
+                  headerStyle: const HeaderStyle(
+                    formatButtonVisible: false, // ✅ Removes format change button
+                    titleCentered: true,
+                    titleTextStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  calendarStyle: CalendarStyle(
+                    todayDecoration: BoxDecoration(color: Colors.blue, shape: BoxShape.circle),
+                    selectedDecoration: BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+                  ),
+                ),
               ),
-              calendarStyle: CalendarStyle(
-                todayDecoration: BoxDecoration(color: Colors.blue, shape: BoxShape.circle),
-                selectedDecoration: BoxDecoration(color: Colors.red, shape: BoxShape.circle),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
