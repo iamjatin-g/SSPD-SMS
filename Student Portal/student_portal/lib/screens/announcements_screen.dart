@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/base_screen.dart';
-import '../widgets/back_button_widget.dart'; // ✅ Import BackButtonWidget
+import '../widgets/custom_header.dart'; // ✅ Import the new reusable header
 
 class AnnouncementsScreen extends StatelessWidget {
   const AnnouncementsScreen({super.key});
@@ -8,59 +8,14 @@ class AnnouncementsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
-      selectedIndex: 2, // ✅ Adjusted for correct navigation
+      selectedIndex: 2,
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 10),
-
-            // ✅ Back Button & Title (Centered)
-            Row(
-              children: const [
-                BackButtonWidget(goHome:true),
-                Expanded(
-                  child: Center(
-                    child: Text(
-                      "Announcements",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 48), // Keeps title centered
-              ],
-            ),
-
-            const SizedBox(height: 10),
-
-            // ✅ Date Display (Right-aligned)
-            const Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                "15 Feb 2025 | Sat",
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-              ),
-            ),
-
-            const SizedBox(height: 10),
-
-            // ✅ Student Info
-            const Text(
-              "Standard: 5th  |  Division: A",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-
-            const SizedBox(height: 10),
-
-            const Center(
-              child: Text(
-                "Student Name",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-            ),
-
-            const Divider(thickness: 1, height: 20, color: Colors.blue),
+            // ✅ Use the CustomHeader Widget
+            const CustomHeader(title: "Announcements", goHome: true),
 
             // ✅ Announcements List
             Expanded(
@@ -97,7 +52,7 @@ class AnnouncementsScreen extends StatelessWidget {
   }
 }
 
-// 📌 Improved Announcement Card Widget
+// 📌 Announcement Card Widget (Unchanged)
 class AnnouncementCard extends StatelessWidget {
   final int number;
   final String title;
@@ -159,7 +114,7 @@ class AnnouncementCard extends StatelessWidget {
                       style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                     ),
                     Text(
-                      author, // ✅ Improved author name positioning
+                      author,
                       style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                     ),
                   ],
@@ -185,9 +140,7 @@ class AnnouncementCard extends StatelessWidget {
             Align(
               alignment: Alignment.centerRight,
               child: TextButton(
-                onPressed: () {
-                  // Handle read more functionality
-                },
+                onPressed: () {},
                 child: const Text(
                   "Read More",
                   style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
