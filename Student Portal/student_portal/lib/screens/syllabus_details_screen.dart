@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/base_screen.dart';
-import '../widgets/back_button_widget.dart';
+import '../widgets/custom_header.dart'; // Import CustomHeader
 import '../routes/app_routes.dart';
 
 class SyllabusDetailsScreen extends StatelessWidget {
@@ -21,54 +21,23 @@ class SyllabusDetailsScreen extends StatelessWidget {
           children: [
             const SizedBox(height: 10),
 
-            // ✅ Back Button & Centered Title
-            Row(
-              children: const [
-                BackButtonWidget(),
-                Expanded(
-                  child: Center(
-                    child: Text(
-                      "Syllabus Details",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 48),
-              ],
-            ),
+            // ✅ Custom Header
+            const CustomHeader(title: "Syllabus Details"),
 
-            const SizedBox(height: 10),
+            const SizedBox(height: 5),
 
-            // ✅ Student Details
-            const Text(
-              "Standard: 5th  |  Division: A",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-
-            const Center(
-              child: Text(
-                "Student Name",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-            ),
-
-            const SizedBox(height: 10),
-
-            // ✅ Dynamic Subject Name
-            Center(
-              child: Text(
-                subject,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-            ),
-
-            const SizedBox(height: 10),
-
-            // ✅ Syllabus List
+            // ✅ Syllabus List with Scrollable Subject Name
             Expanded(
               child: ListView(
                 children: [
+                  const SizedBox(height: 10),
+                  Center(
+                    child: Text(
+                      subject,
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
                   _buildChapterList(context, "Chapter 1", subject),
                   _buildChapterList(context, "Chapter 2", subject),
                   _buildChapterList(context, "Chapter 3", subject),
