@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart'; // ✅ Import File Picker
 import '../widgets/base_screen.dart';
 import '../widgets/custom_header.dart';
 
@@ -13,17 +12,6 @@ class TimetableAssessmentScreen extends StatefulWidget {
 
 class _TimetableAssessmentScreenState extends State<TimetableAssessmentScreen> {
   int _selectedChapter = 1;
-  String? _selectedFileName; // ✅ Stores selected file name
-
-  // ✅ Function to pick a file
-  Future<void> _pickFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
-    if (result != null) {
-      setState(() {
-        _selectedFileName = result.files.single.name;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,12 +90,14 @@ class _TimetableAssessmentScreenState extends State<TimetableAssessmentScreen> {
 
               const SizedBox(height: 10),
 
-              // ✅ Class Activity (Attach File & Upload)
+              // ✅ Class Activity (Static Attach File + Upload)
               Row(
                 children: [
-                  // ✅ Attach File Button
+                  // ✅ Static Attach File Button
                   ElevatedButton(
-                    onPressed: _pickFile,
+                    onPressed: () {
+                      // Do nothing or show a snackbar
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.grey[300],
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -117,11 +107,11 @@ class _TimetableAssessmentScreenState extends State<TimetableAssessmentScreen> {
 
                   const SizedBox(width: 10),
 
-                  // ✅ Display Selected File Name
-                  Expanded(
+                  // ✅ Static file label
+                  const Expanded(
                     child: Text(
-                      _selectedFileName ?? "No file selected",
-                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                      "demo_file.pdf",
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -130,7 +120,9 @@ class _TimetableAssessmentScreenState extends State<TimetableAssessmentScreen> {
 
                   // ✅ Upload Button
                   ElevatedButton(
-                    onPressed: () {}, // ✅ Implement Upload Logic
+                    onPressed: () {
+                      // Add your static upload logic here if needed
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),

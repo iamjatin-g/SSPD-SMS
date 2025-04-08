@@ -53,7 +53,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // **Custom Header (Same as Exams & Events Screens)**
-            const CustomHeader(title: "Notifications"),
+            const CustomHeader(title: "Notifications", goHome: true),
 
             const SizedBox(height: 10),
 

@@ -16,7 +16,7 @@ class TimeTableScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // ✅ Custom Header
-            const CustomHeader(title: "Timetable"),
+            const CustomHeader(title: "Timetable", goHome: true),
 
             const SizedBox(height: 5),
 

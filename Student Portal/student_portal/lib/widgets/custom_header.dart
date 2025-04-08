@@ -6,15 +6,13 @@ class CustomHeader extends StatelessWidget {
   final String title;
   final bool goHome; // Optional parameter for back button behavior
 
-  const CustomHeader({
-    super.key,
-    required this.title,
-    this.goHome = false,
-  });
+  const CustomHeader({super.key, required this.title, this.goHome = false});
 
   @override
   Widget build(BuildContext context) {
-    String formattedDate = DateFormat('dd MMM yyyy | EEEE').format(DateTime.now());
+    String formattedDate = DateFormat(
+      'dd MMM yyyy | EEEE',
+    ).format(DateTime.now());
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,7 +27,10 @@ class CustomHeader extends StatelessWidget {
               child: Center(
                 child: Text(
                   title,
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
@@ -44,7 +45,11 @@ class CustomHeader extends StatelessWidget {
           alignment: Alignment.centerRight,
           child: Text(
             formattedDate,
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.blue),
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: Colors.blue,
+            ),
           ),
         ),
 
