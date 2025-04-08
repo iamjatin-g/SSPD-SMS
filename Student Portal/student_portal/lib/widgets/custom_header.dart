@@ -58,7 +58,7 @@ class CustomHeader extends StatelessWidget {
         // Student Info
         const Text(
           "Standard: 5th  |  Division: A",
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
         ),
 
         const SizedBox(height: 10),
@@ -66,7 +66,7 @@ class CustomHeader extends StatelessWidget {
         // Student Name
         const Center(
           child: Text(
-            "Student Name",
+            "John Doe",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ),

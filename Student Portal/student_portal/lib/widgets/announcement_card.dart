@@ -26,7 +26,7 @@ class AnnouncementCard extends StatelessWidget {
       elevation: 3,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: Colors.blue.shade200),
+        // side: BorderSide(color: Colors.blue.shade200),
       ),
       child: Padding(
         padding: const EdgeInsets.all(14.0),
@@ -93,7 +93,7 @@ class AnnouncementCard extends StatelessWidget {
             // Body
             Text(
               body,
-              style: const TextStyle(fontSize: 14, height: 1.4),
+              style: const TextStyle(fontSize: 14, height: 1.4, fontWeight:  FontWeight.w500),
             ),
 
             const SizedBox(height: 10),

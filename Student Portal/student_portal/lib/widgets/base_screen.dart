@@ -99,7 +99,7 @@ class _BaseScreenState extends State<BaseScreen> {
       ),
       body: widget.child,
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
+        // backgroundColor: Colors.white,
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.blue.shade300,
         currentIndex: widget.selectedIndex,

@@ -28,44 +28,62 @@ class ViewAnnouncementScreen extends StatelessWidget {
             const CustomHeader(title: "Announcement Details"),
             const SizedBox(height: 20),
 
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.blueAccent,
+            Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
               ),
-            ),
+              elevation: 3,
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Title
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueAccent,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
 
-            const SizedBox(height: 10),
+                    // Date
+                    Row(
+                      children: [
+                        Icon(Icons.calendar_today, size: 16, color: Colors.grey),
+                        SizedBox(width: 6),
+                        Text(
+                          'Date: $dateDay', // optional label
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
 
-            Row(
-              children: [
-                const Icon(Icons.calendar_today, size: 16, color: Colors.grey),
-                const SizedBox(width: 6),
-                Text(
-                  dateDay,
-                  style: const TextStyle(fontSize: 14, color: Colors.grey),
+                    // Author
+                    Row(
+                      children: [
+                        Icon(Icons.person, size: 16, color: Colors.grey),
+                        SizedBox(width: 6),
+                        Text(
+                          'Author: $author', // optional label
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // Body
+                    Text(
+                      body,
+                      style: const TextStyle(fontSize: 16, height: 1.6, fontWeight: FontWeight.w500),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            const SizedBox(height: 6),
-            Row(
-              children: [
-                const Icon(Icons.person, size: 16, color: Colors.grey),
-                const SizedBox(width: 6),
-                Text(
-                  "By $author",
-                  style: const TextStyle(fontSize: 14, color: Colors.grey),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 20),
-
-            Text(
-              body,
-              style: const TextStyle(fontSize: 16, height: 1.5),
+              ),
             ),
           ],
         ),
