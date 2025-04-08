@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/base_screen.dart';
 import '../widgets/back_button_widget.dart';
+import '../widgets/custom_header.dart'; // Import the CustomHeader
 import '../routes/app_routes.dart';
 
 class DiaryScreen extends StatefulWidget {
@@ -34,34 +35,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // **Back Button & Centered Heading**
-            Row(
-              children: [
-                const BackButtonWidget(),
-                Expanded(
-                  child: Center(
-                    child: const Text(
-                      "Diary",
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 48),
-              ],
-            ),
-
-            const SizedBox(height: 10),
-
-            // **Student Details**
-            const Text(
-              "Standard: 5th  |  Division: A",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 5),
-            const Text(
-              "Student Name",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
+            const CustomHeader(title: "Diary"),
 
             const SizedBox(height: 10),
 
@@ -84,7 +58,6 @@ class _DiaryScreenState extends State<DiaryScreen> {
                 IconButton(
                   icon: const Icon(Icons.add, size: 30, color: Colors.blue),
                   onPressed: () {
-                    // Add message functionality
                     Navigator.pushNamed(context, AppRoutes.addNote);
                   },
                 ),
@@ -93,7 +66,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
 
             const SizedBox(height: 10),
 
-            // **Inbox/Sent Tabs with Improved UI**
+            // **Inbox/Sent Tabs**
             Container(
               height: 40,
               decoration: BoxDecoration(
@@ -110,14 +83,19 @@ class _DiaryScreenState extends State<DiaryScreen> {
 
             const SizedBox(height: 10),
 
-            // **Message List (Updates Dynamically)**
+            // **Message List**
             Expanded(
               child: ListView.builder(
                 itemCount: _selectedTab == 0 ? inboxMessages.length : sentMessages.length,
                 itemBuilder: (context, index) {
                   var message = _selectedTab == 0 ? inboxMessages[index] : sentMessages[index];
                   return _buildMessageTile(
-                      index + 1, message["subject"]!, message["body"]!, message["date"]!, context);
+                    index + 1,
+                    message["subject"]!,
+                    message["body"]!,
+                    message["date"]!,
+                    context,
+                  );
                 },
               ),
             ),
@@ -127,7 +105,6 @@ class _DiaryScreenState extends State<DiaryScreen> {
     );
   }
 
-  // **Tab Button with Rounded Selection**
   Widget _buildTabButton(String label, int index) {
     return Expanded(
       child: GestureDetector(
@@ -156,8 +133,13 @@ class _DiaryScreenState extends State<DiaryScreen> {
     );
   }
 
-  // **Message Tile**
-  Widget _buildMessageTile(int number, String subject, String body, String date, BuildContext context) {
+  Widget _buildMessageTile(
+      int number,
+      String subject,
+      String body,
+      String date,
+      BuildContext context,
+      ) {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 5),
       child: Padding(
