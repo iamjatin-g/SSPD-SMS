@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../routes/app_routes.dart';
 
 class AnnouncementCard extends StatelessWidget {
   final int number;
@@ -110,7 +111,18 @@ class AnnouncementCard extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: onTap ?? () {},
+                  onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.viewAnnouncement,
+                      arguments: {
+                        'title': title,
+                        'body': body,
+                        'dateDay': dateDay,
+                        'author': author,
+                      },
+                    );
+                  },
                   child: const Text(
                     "Read More",
                     style: TextStyle(

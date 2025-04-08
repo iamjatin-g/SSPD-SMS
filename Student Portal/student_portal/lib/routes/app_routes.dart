@@ -19,6 +19,8 @@ import '../screens/exam_timetable_screen.dart';
 import '../screens/view_inbox_note_screen.dart';
 import '../screens/add_note_screen.dart';
 import '../screens/timetable_assessment_screen.dart';
+import '../screens/view_announcement_screen.dart';
+
 
 class AppRoutes {
   static const String login = '/login';
@@ -41,6 +43,8 @@ class AppRoutes {
   static const String viewInboxNote = '/view-inbox-note';
   static const String addNote = '/add-note';
   static const String timetableAssessment = '/timetable-assessment';
+  static const String viewAnnouncement = '/view-announcement';
+
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -103,6 +107,17 @@ class AppRoutes {
         );
       case addNote: // Route for Add Note screen
         return MaterialPageRoute(builder: (_) => const AddNoteScreen());
+      case viewAnnouncement:
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (_) => ViewAnnouncementScreen(
+            title: args['title'] ?? '',
+            body: args['body'] ?? '',
+            dateDay: args['dateDay'] ?? '',
+            author: args['author'] ?? '',
+          ),
+        );
+
       default:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(
