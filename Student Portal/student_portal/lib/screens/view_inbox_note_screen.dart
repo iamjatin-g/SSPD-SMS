@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/base_screen.dart';
-import '../widgets/back_button_widget.dart';
+import '../widgets/custom_header.dart';
 
 class ViewInboxNoteScreen extends StatelessWidget {
   final String subject;
@@ -18,109 +18,84 @@ class ViewInboxNoteScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseScreen(
       selectedIndex: 0,
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // **Back Button & Heading**
-            Row(
-              children: [
-                const BackButtonWidget(),
-                Expanded(
-                  child: Center(
-                    child: const Text(
-                      "Diary",
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 48),
-              ],
+            // Custom Header
+            const CustomHeader(title: "View a Note"),
+
+            const SizedBox(height: 20),
+
+            // Subject Display
+            Text(
+              "Subject",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.grey[800]),
             ),
-
-            const SizedBox(height: 10),
-
-            // **Student Details**
-            const Text(
-              "Standard: 5th  |  Division: A",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 5),
-            const Text(
-              "Student Name",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-
-            const SizedBox(height: 10),
-
-            // **View Note Title**
+            const SizedBox(height: 6),
             Container(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              alignment: Alignment.center,
-              child: const Text(
-                "View a Note",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-            ),
-
-            Divider(thickness: 1, color: Colors.blue),
-
-            const SizedBox(height: 10),
-
-            // **Subject Input**
-            const Text(
-              "Subject:",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 5),
-            TextField(
-              readOnly: true,
-              decoration: InputDecoration(
-                hintText: subject,
-                border: OutlineInputBorder(),
-                contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              ),
-            ),
-
-            const SizedBox(height: 15),
-
-            // **Message Input**
-            const Text(
-              "Message",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 5),
-            Container(
-              height: 200,
-              padding: const EdgeInsets.all(10),
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 14),
               decoration: BoxDecoration(
+                color: Colors.grey[100],
                 border: Border.all(color: Colors.blue),
-                borderRadius: BorderRadius.circular(5),
+                borderRadius: BorderRadius.circular(8),
               ),
               child: Text(
-                message,
+                subject,
                 style: const TextStyle(fontSize: 16),
               ),
             ),
 
-            const SizedBox(height: 15),
+            const SizedBox(height: 20),
 
-            // **Reply Button**
+            // Message Display as Readonly TextField
+            Text(
+              "Message",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.grey[800]),
+            ),
+            const SizedBox(height: 6),
+            TextField(
+              readOnly: true,
+              maxLines: null,
+              minLines: 8,
+              controller: TextEditingController(text: message),
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.grey[100],
+                contentPadding: const EdgeInsets.all(14),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: const BorderSide(color: Colors.blue),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: const BorderSide(color: Colors.blue),
+                ),
+              ),
+              style: const TextStyle(fontSize: 16, height: 1.4),
+            ),
+
+            const SizedBox(height: 30),
+
+            // Reply Button
             Align(
               alignment: Alignment.centerRight,
-              child: ElevatedButton(
+              child: ElevatedButton.icon(
+                icon: const Icon(Icons.reply, color: Colors.white, size: 20),
+                label: const Text("Reply", style: TextStyle(fontSize: 16, color: Colors.white)),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  elevation: 3,
                 ),
                 onPressed: () {
-                  // Handle reply functionality
+                  // TODO: Handle reply functionality
                 },
-                child: const Text(
-                  "Reply",
-                  style: TextStyle(fontSize: 16, color: Colors.white),
-                ),
               ),
             ),
           ],
