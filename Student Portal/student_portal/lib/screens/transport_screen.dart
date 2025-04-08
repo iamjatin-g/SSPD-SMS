@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/base_screen.dart';
-import '../widgets/back_button_widget.dart'; // ✅ Import Back Button Widget
+import '../widgets/custom_header.dart';
+import '../widgets/transport_card.dart'; // ✅ Import reusable transport card
 
 class TransportScreen extends StatelessWidget {
   const TransportScreen({super.key});
@@ -8,46 +9,13 @@ class TransportScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
-      selectedIndex: 0, // ✅ Correct index for navigation
+      selectedIndex: 0,
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 10),
-
-            // ✅ Back Button & Title (Centered)
-            Row(
-              children: const [
-                BackButtonWidget(),
-                Expanded(
-                  child: Center(
-                    child: Text(
-                      "Transport",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 48), // Keeps title centered
-              ],
-            ),
-
-            const SizedBox(height: 10),
-
-            // ✅ Student Details
-            const Text(
-              "Standard: 5th  |  Division: A",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-
-            const SizedBox(height: 10),
-
-            const Center(
-              child: Text(
-                "Student Name",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-            ),
+            const CustomHeader(title: "Transport"), // ✅ Using Custom Header
 
             const SizedBox(height: 10),
 
@@ -80,118 +48,62 @@ class TransportScreen extends StatelessWidget {
 
             const SizedBox(height: 10),
 
-            // ✅ Transport Cards List
             Expanded(
               child: ListView(
-                children: [
+                children: const [
                   TransportCard(
-                    busNo: "3",
+                    busNo: "1",
                     status: "Live",
-                    pickup: "Location (Time)",
-                    drop: "Location (Time)",
-                    driver: "Driver Name (Contact no.)",
-                    supervisor: "Supervisor Name (Contact no.)",
+                    pickup: "Green Park (7:30 AM)",
+                    drop: "Sunshine Colony (2:30 PM)",
+                    driver: "Rajesh Kumar (9876543210)",
+                    supervisor: "Anita Sharma (9876543211)",
                     timeAgo: "Live",
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10),
+                  TransportCard(
+                    busNo: "2",
+                    status: "Live",
+                    pickup: "Blue Hill (7:45 AM)",
+                    drop: "Garden Lane (2:45 PM)",
+                    driver: "Suresh Mehta (9876543212)",
+                    supervisor: "Meena Verma (9876543213)",
+                    timeAgo: "Live",
+                  ),
+                  SizedBox(height: 10),
                   TransportCard(
                     busNo: "3",
                     status: "Ended",
-                    pickup: "Location (Time)",
-                    drop: "Location (Time)",
-                    driver: "Driver Name (Contact no.)",
-                    supervisor: "Supervisor Name (Contact no.)",
-                    timeAgo: "7 Hours ago",
+                    pickup: "Lakeview (8:00 AM)",
+                    drop: "Riverbend (3:00 PM)",
+                    driver: "Vinod Yadav (9876543214)",
+                    supervisor: "Pooja Singh (9876543215)",
+                    timeAgo: "2 Hours ago",
+                  ),
+                  SizedBox(height: 10),
+                  TransportCard(
+                    busNo: "4",
+                    status: "Ended",
+                    pickup: "Rose Villa (7:15 AM)",
+                    drop: "Central Market (2:15 PM)",
+                    driver: "Rakesh Sinha (9876543216)",
+                    supervisor: "Neha Jain (9876543217)",
+                    timeAgo: "3 Hours ago",
+                  ),
+                  SizedBox(height: 10),
+                  TransportCard(
+                    busNo: "5",
+                    status: "Ended",
+                    pickup: "Ashok Nagar (8:10 AM)",
+                    drop: "City Mall (3:10 PM)",
+                    driver: "Mahesh Patil (9876543218)",
+                    supervisor: "Kavita Rao (9876543219)",
+                    timeAgo: "4 Hours ago",
                   ),
                 ],
               ),
             ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
-// ✅ Transport Card Widget
-class TransportCard extends StatelessWidget {
-  final String busNo;
-  final String status;
-  final String pickup;
-  final String drop;
-  final String driver;
-  final String supervisor;
-  final String timeAgo;
-
-  const TransportCard({
-    super.key,
-    required this.busNo,
-    required this.status,
-    required this.pickup,
-    required this.drop,
-    required this.driver,
-    required this.supervisor,
-    required this.timeAgo,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-        side: BorderSide(color: Colors.blue.shade300, width: 1),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // ✅ Bus number and status
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    const Icon(Icons.directions_bus, color: Colors.blue),
-                    const SizedBox(width: 8),
-                    Text(
-                      "Bus no $busNo",
-                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                Text(
-                  timeAgo,
-                  style: const TextStyle(fontSize: 14, color: Colors.black54),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 5),
-
-            // ✅ Pickup & Drop details
-            Text("Pick Up: $pickup"),
-            Text("Drop: $drop"),
-            Text("Driver: $driver"),
-            Text("Supervisor: $supervisor"),
-
-            const SizedBox(height: 5),
-
-            // ✅ Status Bar
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text("Live Location"),
-                Text(
-                  status,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: status == "Live" ? Colors.green : Colors.red,
-                  ),
-                ),
-              ],
-            ),
           ],
         ),
       ),
