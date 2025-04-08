@@ -24,54 +24,84 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
   Widget build(BuildContext context) {
     return BaseScreen(
       selectedIndex: 0,
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // ✅ Custom Header
-            const CustomHeader(title: "Diary"),
+            const CustomHeader(title: "Add a Note"),
 
-            const SizedBox(height: 10),
+            const SizedBox(height: 24),
 
-            const Center(
-              child: Text(
-                "Add a Note",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
+            // Subject
+            Text(
+              "Subject",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.grey[800]),
             ),
-
-            const SizedBox(height: 15),
-
-            const Text("Subject:"),
-            const SizedBox(height: 5),
+            const SizedBox(height: 6),
             TextField(
               controller: subjectController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                hintText: "Enter subject",
+                contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 14),
+                filled: true,
+                fillColor: Colors.grey[100],
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: const BorderSide(color: Colors.blue),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: const BorderSide(color: Colors.blue),
+                ),
               ),
+              style: const TextStyle(fontSize: 16),
             ),
 
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
 
-            const Text("Message"),
-            const SizedBox(height: 5),
+            // Message
+            Text(
+              "Message",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.grey[800]),
+            ),
+            const SizedBox(height: 6),
             TextField(
               controller: messageController,
-              maxLines: 6,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
+              maxLines: 8,
+              decoration: InputDecoration(
+                hintText: "Write your message here...",
+                contentPadding: const EdgeInsets.all(14),
+                filled: true,
+                fillColor: Colors.grey[100],
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: const BorderSide(color: Colors.blue),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: const BorderSide(color: Colors.blue),
+                ),
               ),
+              style: const TextStyle(fontSize: 16),
             ),
 
-            const SizedBox(height: 15),
+            const SizedBox(height: 30),
 
+            // Send Button
             Align(
               alignment: Alignment.centerRight,
-              child: ElevatedButton(
+              child: ElevatedButton.icon(
+                icon: const Icon(Icons.send, color: Colors.white, size: 20),
+                label: const Text("Send", style: TextStyle(fontSize: 16, color: Colors.white)),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  elevation: 3,
                 ),
                 onPressed: () {
                   String subject = subjectController.text.trim();
@@ -87,7 +117,6 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                   // TODO: Handle sending note logic
                   Navigator.pop(context);
                 },
-                child: const Text("Send", style: TextStyle(color: Colors.white)),
               ),
             ),
           ],
