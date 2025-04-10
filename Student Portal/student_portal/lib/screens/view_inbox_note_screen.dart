@@ -19,7 +19,8 @@ class ViewInboxNoteScreen extends StatelessWidget {
     return BaseScreen(
       selectedIndex: 0,
       child: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+        // padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

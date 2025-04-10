@@ -25,7 +25,8 @@ class _FeesRecordScreenState extends State<FeesRecordScreen> {
     return BaseScreen(
       selectedIndex: 0,
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+        // padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             const CustomHeader(title: "Fees Record"),

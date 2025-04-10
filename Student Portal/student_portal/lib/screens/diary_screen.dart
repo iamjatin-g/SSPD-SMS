@@ -55,7 +55,8 @@ class _DiaryScreenState extends State<DiaryScreen> {
     return BaseScreen(
       selectedIndex: 0,
       child: Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+        // padding: const EdgeInsets.all(12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

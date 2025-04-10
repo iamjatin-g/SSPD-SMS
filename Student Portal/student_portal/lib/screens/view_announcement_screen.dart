@@ -21,7 +21,8 @@ class ViewAnnouncementScreen extends StatelessWidget {
     return BaseScreen(
       selectedIndex: 2,
       child: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+        // padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -44,7 +45,7 @@ class ViewAnnouncementScreen extends StatelessWidget {
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Colors.blueAccent,
+                        color: Colors.blue,
                       ),
                     ),
                     const SizedBox(height: 12),

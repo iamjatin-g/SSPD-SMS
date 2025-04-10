@@ -12,7 +12,7 @@ class SyllabusTrackerScreen extends StatelessWidget {
       selectedIndex: 0,
       child: Padding(
         // padding: const EdgeInsets.all(10.0),
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
 
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

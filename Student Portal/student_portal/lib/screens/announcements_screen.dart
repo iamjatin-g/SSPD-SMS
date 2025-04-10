@@ -11,7 +11,9 @@ class AnnouncementsScreen extends StatelessWidget {
     return BaseScreen(
       selectedIndex: 2,
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        // padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

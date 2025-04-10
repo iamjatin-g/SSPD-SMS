@@ -15,7 +15,8 @@ class AssessmentScreen extends StatelessWidget {
       selectedIndex: 0,
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+          // padding: const EdgeInsets.all(12.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
