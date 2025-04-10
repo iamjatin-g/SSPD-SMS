@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/base_screen.dart';
-import '../widgets/custom_header.dart'; // Import your custom header
+import '../widgets/custom_header.dart';
+import '../widgets/timetable_card.dart'; // Import the reusable timetable card
 
 class ExamTimetableScreen extends StatefulWidget {
   const ExamTimetableScreen({super.key});
@@ -12,7 +13,7 @@ class ExamTimetableScreen extends StatefulWidget {
 class _ExamTimetableScreenState extends State<ExamTimetableScreen> {
   int _selectedSemester = 3; // Default semester
 
-  // **Exam schedules for different semesters**
+  // Exam schedules for different semesters
   final Map<int, List<Map<String, String>>> examSchedules = {
     3: [
       {"date": "1 Mar", "subject": "English", "time": "10:00 AM - 12:00 PM"},
@@ -37,95 +38,91 @@ class _ExamTimetableScreenState extends State<ExamTimetableScreen> {
       selectedIndex: 0,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-        // padding: const EdgeInsets.all(12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // **Custom Header**
             const CustomHeader(title: "Exam Timetable"),
 
-            const SizedBox(height: 10),
+            const SizedBox(height: 12),
 
-            // **Semester Dropdown**
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text("Semester: ", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                const SizedBox(width: 10),
-                DropdownButton<int>(
-                  value: _selectedSemester,
-                  items: [3, 4, 5].map((int semester) {
-                    return DropdownMenuItem<int>(
-                      value: semester,
-                      child: Text("Sem $semester", style: const TextStyle(fontSize: 16)),
-                    );
-                  }).toList(),
-                  onChanged: (int? newValue) {
-                    setState(() {
-                      _selectedSemester = newValue!;
-                    });
-                  },
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-
-            // **Timetable Header**
-            const Center(
-              child: Text(
-                "Time-Table",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            // Timetable Header (Enhanced)
+            Center(
+              child: Column(
+                children: [
+                  const Text(
+                    "Time-Table",
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue,
+                    ),
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 10),
 
-            // **Exam Schedule (Dynamically Updated)**
+
+            // Semester Dropdown (Clean Look)
+            Center(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.school, color: Colors.blueAccent, size: 20),
+                  const SizedBox(width: 8),
+                  const Text(
+                    "Semester:",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black87,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  DropdownButtonHideUnderline(
+                    child: DropdownButton<int>(
+                      value: _selectedSemester,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.black87,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      icon: const Icon(Icons.arrow_drop_down, color: Colors.blueAccent),
+                      items: [3, 4, 5].map((int semester) {
+                        return DropdownMenuItem<int>(
+                          value: semester,
+                          child: Text("Sem $semester"),
+                        );
+                      }).toList(),
+                      onChanged: (int? newValue) {
+                        setState(() {
+                          _selectedSemester = newValue!;
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            // Exam Schedule
             Expanded(
               child: ListView.builder(
                 itemCount: examSchedules[_selectedSemester]!.length,
                 itemBuilder: (context, index) {
                   var schedule = examSchedules[_selectedSemester]![index];
-                  return _buildTimetableCard(schedule["date"]!, schedule["subject"]!, schedule["time"]!);
+                  return TimetableCard(
+                    date: schedule["date"]!,
+                    subject: schedule["subject"]!,
+                    time: schedule["time"]!,
+                  );
                 },
               ),
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  // **Timetable Card UI**
-  Widget _buildTimetableCard(String date, String subject, String time) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.blueAccent, width: 1.5),
-        borderRadius: BorderRadius.circular(5),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          // **Date Box**
-          Container(
-            padding: const EdgeInsets.all(8),
-            color: Colors.blue,
-            child: Text(
-              date,
-              style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-          ),
-
-          // **Subject Name**
-          Text(subject, style: const TextStyle(fontSize: 16)),
-
-          // **Exam Timings (Right Aligned)**
-          Text(
-            time,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.blueAccent),
-          ),
-        ],
       ),
     );
   }
