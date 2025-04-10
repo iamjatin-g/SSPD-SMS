@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart'; // 👈 Required for debugPaintSizeEnabled
 import 'routes/app_routes.dart';
 
 void main() {
+  debugPaintSizeEnabled = false; // 👈 This highlights layout boundaries
   runApp(const MyApp());
 }
 
@@ -14,7 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'Student Portal',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue, // ✅ Changed to blue
+        primarySwatch: Colors.blue,
       ),
       initialRoute: AppRoutes.login,
       onGenerateRoute: AppRoutes.generateRoute,

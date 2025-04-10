@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/base_screen.dart';
-import '../routes/app_routes.dart';
-import '../widgets/custom_header.dart'; // Import CustomHeader
+import '../widgets/custom_header.dart';
+import '../widgets/subject_card.dart'; // 🔽 Import the new SubjectCard widget
 
 class SyllabusTrackerScreen extends StatelessWidget {
   const SyllabusTrackerScreen({super.key});
@@ -11,74 +11,44 @@ class SyllabusTrackerScreen extends StatelessWidget {
     return BaseScreen(
       selectedIndex: 0,
       child: Padding(
-        padding: const EdgeInsets.all(12.0),
+        // padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 10),
-
-            // ✅ Custom Header
             const CustomHeader(title: "Syllabus Tracker"),
-
             const SizedBox(height: 10),
 
-            // ✅ Subject Title
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(10),
-                color: Colors.blue,
-                child: const Text(
+            Row(
+              children: const [
+                Icon(Icons.menu_book_rounded, color: Colors.blue, size: 24),
+                SizedBox(width: 8),
+                Text(
                   "Subjects",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue,
+                  ),
                 ),
-              ),
+              ],
             ),
 
-            // ✅ Subjects List
+            const SizedBox(height: 10),
+
             Expanded(
               child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                children: [
-                  _buildSubjectCard(context, "E", "English", Colors.blue),
-                  _buildSubjectCard(context, "M", "Maths", Colors.teal),
-                  _buildSubjectCard(context, "S", "Science", Colors.green),
-                  _buildSubjectCard(context, "H", "History", Colors.red),
-                  _buildSubjectCard(context, "G", "Geography", Colors.orange),
+                children: const [
+                  SubjectCard(letter: "E", subject: "English", color: Colors.blue),
+                  SubjectCard(letter: "M", subject: "Maths", color: Colors.teal),
+                  SubjectCard(letter: "S", subject: "Science", color: Colors.green),
+                  SubjectCard(letter: "H", subject: "History", color: Colors.red),
+                  SubjectCard(letter: "G", subject: "Geography", color: Colors.orange),
                 ],
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  // ✅ Function to Build Subject Cards with Navigation
-  Widget _buildSubjectCard(BuildContext context, String letter, String subject, Color color) {
-    return Card(
-      elevation: 3,
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      child: ListTile(
-        leading: CircleAvatar(
-          backgroundColor: color,
-          child: Text(
-            letter,
-            style: const TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-        ),
-        title: Text(subject, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        trailing: TextButton(
-          onPressed: () {
-            Navigator.pushNamed(
-              context,
-              AppRoutes.syllabusDetails,
-              arguments: {'subject': subject},
-            );
-          },
-          child: const Text("View", style: TextStyle(fontSize: 16, color: Colors.blue)),
         ),
       ),
     );
