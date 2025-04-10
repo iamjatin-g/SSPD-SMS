@@ -62,7 +62,9 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                   firstDay: DateTime(2000),
                   lastDay: DateTime(2100),
                   calendarFormat: CalendarFormat.month,
-                  availableCalendarFormats: const {CalendarFormat.month: 'Month'},
+                  availableCalendarFormats: const {
+                    CalendarFormat.month: 'Month',
+                  },
                   selectedDayPredicate: (day) {
                     return isSameDay(_selectedDay, day);
                   },
@@ -75,11 +77,20 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                   headerStyle: const HeaderStyle(
                     formatButtonVisible: false,
                     titleCentered: true,
-                    titleTextStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    titleTextStyle: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   calendarStyle: CalendarStyle(
-                    todayDecoration: BoxDecoration(color: Colors.blue, shape: BoxShape.circle),
-                    selectedDecoration: BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+                    todayDecoration: BoxDecoration(
+                      color: Colors.blue,
+                      shape: BoxShape.circle,
+                    ),
+                    selectedDecoration: BoxDecoration(
+                      color: Colors.red,
+                      shape: BoxShape.circle,
+                    ),
                   ),
                 ),
               ),
@@ -102,17 +113,17 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   }
 }
 
-// **Function to Get Month Name**
-  String _getMonthName(int month) {
-    const months = [
-      "", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-    ];
-    return months[month];
-  }
+// // **Function to Get Month Name**
+//   String _getMonthName(int month) {
+//     const months = [
+//       "", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+//     ];
+//     return months[month];
+//   }
 
-  // **Function to Get Weekday Name**
-  String _getWeekdayName(int weekday) {
-    const weekdays = ["", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-    return weekdays[weekday];
-  }
+  // // **Function to Get Weekday Name**
+  // String _getWeekdayName(int weekday) {
+  //   const weekdays = ["", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  //   return weekdays[weekday];
+  // }
 

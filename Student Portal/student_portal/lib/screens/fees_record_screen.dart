@@ -1,75 +1,79 @@
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 import '../widgets/base_screen.dart';
-import '../widgets/back_button_widget.dart';
+import '../widgets/custom_header.dart';
 
-class FeesRecordScreen extends StatelessWidget {
+class FeesRecordScreen extends StatefulWidget {
   const FeesRecordScreen({super.key});
 
   @override
+  State<FeesRecordScreen> createState() => _FeesRecordScreenState();
+}
+
+class _FeesRecordScreenState extends State<FeesRecordScreen> {
+  int _selectedTab = 0;
+
+  final double totalFees = 40000;
+  final double paidFees = 30000;
+  final double unpaidFees = 10000;
+
+  @override
   Widget build(BuildContext context) {
+    Map<String, double> dynamicQuarterData = _calculateQuarterData();
+    List<Color> dynamicColorList = _generateQuarterColors(dynamicQuarterData);
+
     return BaseScreen(
       selectedIndex: 0,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // **Back Button & Title**
-            Row(
-              children: [
-                const BackButtonWidget(),
-                Expanded(
-                  child: Center(
-                    child: Text(
-                      "Fees Record",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+            const CustomHeader(title: "Fees Record"),
+            const SizedBox(height: 10),
+
+            Container(
+              height: 42,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade200,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                children: [
+                  _buildTabButton("Overview", 0),
+                  _buildTabButton("Fee Breakdown", 1),
+                ],
+              ),
+            ),
+            const SizedBox(height: 10),
+
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    _selectedTab == 0
+                        ? _buildOverviewSection()
+                        : _buildFeeBreakdownSection(
+                        dynamicQuarterData, dynamicColorList),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 50, vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                      ),
+                      onPressed: () {
+                        // Handle payment
+                      },
+                      child: const Text(
+                        "Pay Now",
+                        style: TextStyle(fontSize: 17, color: Colors.white),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-                const SizedBox(width: 48), // Keeps the title centered
-              ],
-            ),
-            const SizedBox(height: 15),
-
-            // **Student Name**
-            const Text(
-              "Student Name",
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 15),
-
-            // **Paid & Unpaid Fees Buttons**
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildRoundedButton("Paid Fees"),
-                const SizedBox(width: 12),
-                _buildRoundedButton("Unpaid Fees"),
-              ],
-            ),
-            const SizedBox(height: 20),
-
-            // **Pie Chart**
-            _buildImprovedPieChart(),
-            const SizedBox(height: 25),
-
-            // **"Pay Now" Button**
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              onPressed: () {},
-              child: const Text(
-                "Pay Now",
-                style: TextStyle(fontSize: 16, color: Colors.white),
               ),
             ),
           ],
@@ -78,62 +82,151 @@ class FeesRecordScreen extends StatelessWidget {
     );
   }
 
-  // 🔹 Helper Widget for Rounded Buttons
-  Widget _buildRoundedButton(String text) {
+  Widget _buildTabButton(String label, int index) {
+    final isActive = _selectedTab == index;
     return Expanded(
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blue.shade700,
-          padding: const EdgeInsets.symmetric(vertical: 14),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+      child: GestureDetector(
+        onTap: () => setState(() => _selectedTab = index),
+        child: Container(
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: isActive ? Colors.white : Colors.transparent,
+            borderRadius: BorderRadius.circular(10),
           ),
-          shadowColor: Colors.blue.withOpacity(0.5),
-          elevation: 3,
-        ),
-        onPressed: () {},
-        child: Text(
-          text,
-          style: const TextStyle(fontSize: 16, color: Colors.white),
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              color: isActive ? Colors.blue : Colors.black87,
+            ),
+          ),
         ),
       ),
     );
   }
 
-  // 🎯 Improved Pie Chart (without unnecessary background)
-  Widget _buildImprovedPieChart() {
-    Map<String, double> dataMap = {
-      "Quarter 1": 25,
-      "Quarter 2": 25,
-      "Quarter 3": 25,
-      "Quarter 4": 25,
-    };
+  Widget _buildOverviewSection() {
+    return Column(
+      children: [
+        _buildInfoCard(Icons.account_balance_wallet, "Total Fees", "₹${totalFees.toStringAsFixed(0)}", Colors.blue.shade700, Colors.blue.shade400),
+        _buildInfoCard(Icons.check_circle, "Paid Fees", "₹${paidFees.toStringAsFixed(0)}", Colors.blue.shade600, Colors.blue.shade300),
+        _buildInfoCard(Icons.cancel, "Unpaid Fees", "₹${unpaidFees.toStringAsFixed(0)}", Colors.blue.shade300, Colors.blue.shade100),
+      ],
+    );
+  }
 
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      elevation: 5,
-      shadowColor: Colors.black26,
-      child: Padding(
-        padding: const EdgeInsets.all(15),
-        child: PieChart(
-          dataMap: dataMap,
-          chartRadius: 180,
-          ringStrokeWidth: 16,
-          legendOptions: const LegendOptions(
-            legendPosition: LegendPosition.bottom,
-            legendTextStyle: TextStyle(fontSize: 16),
+  Widget _buildInfoCard(IconData icon, String title, String amount, Color colorStart, Color colorEnd) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [colorStart, colorEnd],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(18),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
           ),
-          chartValuesOptions: const ChartValuesOptions(
-            showChartValues: false,
-            showChartValuesOutside: false,
-            decimalPlaces: 1,
+        ],
+      ),
+      child: Row(
+        children: [
+          CircleAvatar(
+            backgroundColor: Colors.white.withOpacity(0.2),
+            radius: 22,
+            child: Icon(icon, size: 24, color: Colors.white),
           ),
-          colorList: [
-            Colors.blue.shade800,
-            Colors.blue.shade600,
-            Colors.blue.shade400,
-            Colors.blue.shade200,
-          ],
+          const SizedBox(width: 16),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                amount,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  // 🧠 Generate Pie Chart Data Based on Paid %
+  Map<String, double> _calculateQuarterData() {
+    double percentagePaid = paidFees / totalFees;
+    int paidQuarters = (percentagePaid * 4).floor(); // 0 to 4
+    Map<String, double> data = {};
+
+    for (int i = 1; i <= 4; i++) {
+      String label = "Quarter $i (${i <= paidQuarters ? "Paid" : "Unpaid"})";
+      data[label] = 1;
+    }
+    return data;
+  }
+
+  // 🎨 Blue Themed Colors for Pie Chart
+  List<Color> _generateQuarterColors(Map<String, double> data) {
+    return data.keys.map((label) {
+      return label.contains("Paid")
+          ? Colors.blue.shade600
+          : Colors.blue.shade200;
+    }).toList();
+  }
+
+  Widget _buildFeeBreakdownSection(
+      Map<String, double> data, List<Color> colors) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        elevation: 6,
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: [
+              const Text(
+                "Your Fee Progress",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 10),
+              PieChart(
+                dataMap: data,
+                chartType: ChartType.disc,
+                chartRadius: MediaQuery.of(context).size.width / 2,
+                chartValuesOptions: const ChartValuesOptions(
+                  showChartValuesInPercentage: false,
+                  showChartValues: false,
+                ),
+                legendOptions: const LegendOptions(
+                  legendPosition: LegendPosition.bottom,
+                  legendTextStyle: TextStyle(fontSize: 14),
+                ),
+                colorList: colors,
+              ),
+            ],
+          ),
         ),
       ),
     );
