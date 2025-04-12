@@ -1,102 +1,106 @@
 import 'package:flutter/material.dart';
 
-class TimetableCard extends StatelessWidget {
-  final String date;
-  final String subject;
+class TimetableCardWidget extends StatelessWidget {
+  final int period;
   final String time;
+  final String subject;
+  final String teacher;
+  final VoidCallback? onViewAssessment;
 
-  const TimetableCard({
+  const TimetableCardWidget({
     super.key,
-    required this.date,
-    required this.subject,
+    required this.period,
     required this.time,
+    required this.subject,
+    required this.teacher,
+    this.onViewAssessment,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 14),
-      child: Material(
-        color: Colors.transparent,
-        elevation: 4,
-        borderRadius: BorderRadius.circular(16),
-        shadowColor: Colors.blue.shade100.withOpacity(0.4),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(16),
-          onTap: () {},
-          splashColor: Colors.blue.withOpacity(0.15),
-          highlightColor: Colors.transparent,
-          child: Ink(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.white, Colors.blue.shade50],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            padding: const EdgeInsets.all(14),
-            child: Row(
-              children: [
-                // 📅 Date Box
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                  decoration: BoxDecoration(
-                    color: Colors.blue.shade600,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    children: [
-                      const Icon(Icons.calendar_today, color: Colors.white, size: 18),
-                      const SizedBox(height: 4),
-                      Text(
-                        date,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 16),
-
-                // 📚 Subject & Time
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        subject,
-                        style: const TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black87,
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      Row(
-                        children: [
-                          const Icon(Icons.access_time, size: 16, color: Colors.blueGrey),
-                          const SizedBox(width: 6),
-                          Text(
-                            time,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.blue.shade700,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.white70,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 5,
+            offset: Offset(0, 3),
+          ),
+        ],
+        border: Border.all(color: Colors.grey.shade200),
+      ),
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        leading: CircleAvatar(
+          radius: 22,
+          backgroundColor: Colors.blue.shade600,
+          child: Text(
+            period.toString(),
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
             ),
           ),
         ),
+        title: Text(
+          subject,
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 4),
+            Row(
+              children: [
+                const Icon(Icons.access_time, size: 16, color: Colors.grey),
+                const SizedBox(width: 5),
+                Text(
+                  time,
+                  style: const TextStyle(fontSize: 14, color: Colors.grey),
+                ),
+              ],
+            ),
+            const SizedBox(height: 2),
+            Row(
+              children: [
+                const Icon(Icons.person, size: 16, color: Colors.grey),
+                const SizedBox(width: 5),
+                Text(
+                  teacher,
+                  style: const TextStyle(fontSize: 14, color: Colors.grey),
+                ),
+              ],
+            ),
+          ],
+        ),
+        trailing: ElevatedButton.icon(
+          onPressed: onViewAssessment,
+          icon: const Icon(Icons.assignment_outlined, size: 18),
+          label: const Text(
+            "Assessment",
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+          ),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.blue.shade50,
+            foregroundColor: Colors.blue.shade700,
+            elevation: 0,
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            textStyle: const TextStyle(
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+
       ),
     );
   }

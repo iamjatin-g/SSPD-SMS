@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/base_screen.dart';
-import '../widgets/custom_header.dart'; // ✅ Import Custom Header
+import '../widgets/custom_header.dart';
+import '../widgets/timetable_card.dart'; // ✅ Import reusable widget
 import '../routes/app_routes.dart';
 
 class TimeTableScreen extends StatelessWidget {
@@ -12,27 +13,68 @@ class TimeTableScreen extends StatelessWidget {
       selectedIndex: 1,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-        // padding: const EdgeInsets.all(12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ✅ Custom Header
             const CustomHeader(title: "Timetable", goHome: true),
-
             const SizedBox(height: 5),
 
             // ✅ Timetable List
             Expanded(
               child: ListView(
                 children: [
-                  _buildTimetableCard(
-                      context, 1, "7:00 to 7:30", "English", "Miss Sharma"),
-                  _buildTimetableCard(
-                      context, 2, "8:00 to 8:30", "English", "Miss Sharma"),
-                  _buildTimetableCard(
-                      context, 3, "8:30 to 9:00", "Marathi", "Miss Sharma"),
-                  _buildTimetableCard(
-                      context, 4, "9:00 to 9:30", "Hindi", "Miss Sharma"),
+                  TimetableCardWidget(
+                    period: 1,
+                    time: "7:00 to 7:30",
+                    subject: "English",
+                    teacher: "Miss Sharma",
+                    onViewAssessment: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.timetableAssessment,
+                        arguments: {'subject': "English"},
+                      );
+                    },
+                  ),
+                  TimetableCardWidget(
+                    period: 2,
+                    time: "8:00 to 8:30",
+                    subject: "English",
+                    teacher: "Miss Sharma",
+                    onViewAssessment: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.timetableAssessment,
+                        arguments: {'subject': "English"},
+                      );
+                    },
+                  ),
+                  TimetableCardWidget(
+                    period: 3,
+                    time: "8:30 to 9:00",
+                    subject: "Marathi",
+                    teacher: "Miss Sharma",
+                    onViewAssessment: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.timetableAssessment,
+                        arguments: {'subject': "Marathi"},
+                      );
+                    },
+                  ),
+                  TimetableCardWidget(
+                    period: 4,
+                    time: "9:00 to 9:30",
+                    subject: "Hindi",
+                    teacher: "Miss Sharma",
+                    onViewAssessment: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.timetableAssessment,
+                        arguments: {'subject': "Hindi"},
+                      );
+                    },
+                  ),
 
                   // ✅ Break Section
                   const Padding(
@@ -49,57 +91,62 @@ class TimeTableScreen extends StatelessWidget {
                     ),
                   ),
 
-                  _buildTimetableCard(
-                      context, 5, "10:00 to 10:30", "Maths", "Mr. Verma"),
-                  _buildTimetableCard(
-                      context, 6, "10:30 to 11:00", "Science", "Mrs. Kapoor"),
-                  _buildTimetableCard(
-                      context, 7, "11:00 to 11:30", "History", "Miss Singh"),
-                  _buildTimetableCard(
-                      context, 8, "11:30 to 12:00", "Geography", "Mr. Sharma"),
+                  TimetableCardWidget(
+                    period: 5,
+                    time: "10:00 to 10:30",
+                    subject: "Maths",
+                    teacher: "Mr. Verma",
+                    onViewAssessment: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.timetableAssessment,
+                        arguments: {'subject': "Maths"},
+                      );
+                    },
+                  ),
+                  TimetableCardWidget(
+                    period: 6,
+                    time: "10:30 to 11:00",
+                    subject: "Science",
+                    teacher: "Mrs. Kapoor",
+                    onViewAssessment: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.timetableAssessment,
+                        arguments: {'subject': "Science"},
+                      );
+                    },
+                  ),
+                  TimetableCardWidget(
+                    period: 7,
+                    time: "11:00 to 11:30",
+                    subject: "History",
+                    teacher: "Miss Singh",
+                    onViewAssessment: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.timetableAssessment,
+                        arguments: {'subject': "History"},
+                      );
+                    },
+                  ),
+                  TimetableCardWidget(
+                    period: 8,
+                    time: "11:30 to 12:00",
+                    subject: "Geography",
+                    teacher: "Mr. Sharma",
+                    onViewAssessment: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.timetableAssessment,
+                        arguments: {'subject': "Geography"},
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  // ✅ Timetable Card Widget
-  Widget _buildTimetableCard(BuildContext context, int period, String time,
-      String subject, String teacher) {
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 6),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      elevation: 2,
-      child: ListTile(
-        leading: CircleAvatar(
-          backgroundColor: Colors.blue,
-          child: Text(
-            period.toString(),
-            style: const TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-        ),
-        title: Text(subject,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-        subtitle: Text(
-            "$time | $teacher", style: const TextStyle(fontSize: 14)),
-
-        // ✅ Navigate to TimetableAssessmentScreen with Subject Name
-        trailing: TextButton(
-          onPressed: () {
-            Navigator.pushNamed(
-              context,
-              AppRoutes.timetableAssessment,
-              arguments: {
-                'subject': subject,
-              },
-            );
-          },
-          child: const Text(
-              "View Assessment", style: TextStyle(color: Colors.blue)),
         ),
       ),
     );

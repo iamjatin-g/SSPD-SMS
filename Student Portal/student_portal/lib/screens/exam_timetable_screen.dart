@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/base_screen.dart';
 import '../widgets/custom_header.dart';
-import '../widgets/timetable_card.dart'; // Import the reusable timetable card
+import '../widgets/exam_timetable_card.dart';  // Import the reusable timetable card
 
 class ExamTimetableScreen extends StatefulWidget {
   const ExamTimetableScreen({super.key});
@@ -113,7 +113,7 @@ class _ExamTimetableScreenState extends State<ExamTimetableScreen> {
                 itemCount: examSchedules[_selectedSemester]!.length,
                 itemBuilder: (context, index) {
                   var schedule = examSchedules[_selectedSemester]![index];
-                  return TimetableCard(
+                  return ExamTimetableCard(
                     date: schedule["date"]!,
                     subject: schedule["subject"]!,
                     time: schedule["time"]!,
