@@ -21,39 +21,42 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-          // padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20), // More balanced padding
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Custom Header
               const CustomHeader(title: "Attendance"),
 
-              const SizedBox(height: 10),
+              const SizedBox(height: 20), // Adjusted for better spacing
 
               // **"My Attendance" Title**
               const Center(
                 child: Text(
                   "My Attendance",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 22, // Larger font for emphasis
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blueAccent, // Consistent color with app theme
+                  ),
                 ),
               ),
 
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
 
               // **Attendance Legend**
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   _buildLegendBox(Colors.blue, "Present"),
-                  const SizedBox(width: 15),
+                  const SizedBox(width: 25),
                   _buildLegendBox(Colors.red, "Leave"),
-                  const SizedBox(width: 15),
+                  const SizedBox(width: 25),
                   _buildLegendBox(Colors.yellow, "Holiday"),
                 ],
               ),
 
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
 
               // **Fixed Calendar Widget (No Swipe Up/Down)**
               SizedBox(
@@ -79,19 +82,23 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                     formatButtonVisible: false,
                     titleCentered: true,
                     titleTextStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                      fontSize: 18, // Larger font size for calendar header
+                      fontWeight: FontWeight.w600, // Bold title
+                      color: Colors.blueAccent,
                     ),
                   ),
                   calendarStyle: CalendarStyle(
                     todayDecoration: BoxDecoration(
-                      color: Colors.blue,
+                      color: Colors.blue.shade400,
                       shape: BoxShape.circle,
                     ),
                     selectedDecoration: BoxDecoration(
-                      color: Colors.red,
+                      color: Colors.red.shade400,
                       shape: BoxShape.circle,
                     ),
+                    weekendTextStyle: const TextStyle(color: Colors.red), // Highlight weekends
+                    defaultTextStyle: const TextStyle(color: Colors.black),
+                    outsideTextStyle: const TextStyle(color: Colors.grey),
                   ),
                 ),
               ),
@@ -106,25 +113,24 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   Widget _buildLegendBox(Color color, String text) {
     return Row(
       children: [
-        Container(width: 16, height: 16, color: color),
-        const SizedBox(width: 5),
-        Text(text),
+        Container(
+          width: 18, // Adjusted size for better balance
+          height: 18,
+          decoration: BoxDecoration(
+            color: color,
+            shape: BoxShape.circle,
+          ),
+        ),
+        const SizedBox(width: 10),
+        Text(
+          text,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500, // Subtle font weight
+            color: Colors.black54,
+          ),
+        ),
       ],
     );
   }
 }
-
-// // **Function to Get Month Name**
-//   String _getMonthName(int month) {
-//     const months = [
-//       "", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-//     ];
-//     return months[month];
-//   }
-
-  // // **Function to Get Weekday Name**
-  // String _getWeekdayName(int weekday) {
-  //   const weekdays = ["", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-  //   return weekdays[weekday];
-  // }
-
