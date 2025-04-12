@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/base_screen.dart';
 import '../widgets/custom_header.dart'; // Import CustomHeader
+import '../widgets/chapter_list.dart'; // Import ChapterListWidget
 import '../routes/app_routes.dart';
 
 class SyllabusDetailsScreen extends StatelessWidget {
@@ -8,41 +9,39 @@ class SyllabusDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ✅ Retrieve subject name from arguments
+    // Retrieve subject name from arguments
     final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
     final String subject = args?['subject'] ?? "Subject";
+
+    // Fetch syllabus data (without async or reload functionality)
+    final syllabusData = fetchSyllabusData(subject);
 
     return BaseScreen(
       selectedIndex: 0,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-        // padding: const EdgeInsets.all(12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 10),
 
-            // ✅ Custom Header
+            // Custom Header
             const CustomHeader(title: "Syllabus Details"),
 
             const SizedBox(height: 5),
 
-            // ✅ Syllabus List with Scrollable Subject Name
+            // List of chapters
             Expanded(
-              child: ListView(
-                children: [
-                  const SizedBox(height: 10),
-                  Center(
-                    child: Text(
-                      subject,
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  _buildChapterList(context, "Chapter 1", subject),
-                  _buildChapterList(context, "Chapter 2", subject),
-                  _buildChapterList(context, "Chapter 3", subject),
-                ],
+              child: ListView.builder(
+                itemCount: syllabusData.length,
+                itemBuilder: (context, index) {
+                  var chapterData = syllabusData[index];
+                  return ChapterListWidget(
+                    chapter: chapterData['chapter'],
+                    items: chapterData['items'],
+                    subject: subject,
+                  );
+                },
               ),
             ),
           ],
@@ -51,74 +50,31 @@ class SyllabusDetailsScreen extends StatelessWidget {
     );
   }
 
-  // ✅ Function to Build Syllabus Items with Navigation to Assessment Screen
-  Widget _buildChapterList(BuildContext context, String chapter, String subject) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          chapter,
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        syllabusItem(context, "1", subject, chapter, "Miss Sharma"),
-        syllabusItem(context, "2", subject, chapter, "Miss Sharma"),
-        syllabusItem(context, "3", subject, chapter, "Miss Sharma"),
-        syllabusItem(context, "4", subject, chapter, "Miss Sharma"),
-        const SizedBox(height: 10),
-      ],
-    );
-  }
-
-  Widget syllabusItem(BuildContext context, String number, String subject, String chapter, String teacher) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 4),
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.blue),
-        borderRadius: BorderRadius.circular(5),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            number,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.blue),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                subject,
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              Text(
-                chapter,
-                style: const TextStyle(fontSize: 14),
-              ),
-            ],
-          ),
-          Text(
-            teacher,
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-          ),
-          GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(
-                context,
-                AppRoutes.assessment,
-                arguments: {
-                  'subject': subject,
-                  'chapter': chapter,
-                },
-              );
-            },
-            child: const Text(
-              "View Assessment",
-              style: TextStyle(fontSize: 14, color: Colors.blue, fontWeight: FontWeight.bold),
-            ),
-          ),
+  // Mock function to simulate fetching syllabus data from a backend API
+  List<Map<String, dynamic>> fetchSyllabusData(String subject) {
+    // Simulate network delay
+    return [
+      {
+        'chapter': 'Chapter 1',
+        'items': [
+          {'number': '1', 'subject': subject, 'teacher': 'Miss Sharma'},
+          {'number': '2', 'subject': subject, 'teacher': 'Miss Sharma'},
         ],
-      ),
-    );
+      },
+      {
+        'chapter': 'Chapter 2',
+        'items': [
+          {'number': '1', 'subject': subject, 'teacher': 'Miss Sharma'},
+          {'number': '2', 'subject': subject, 'teacher': 'Miss Sharma'},
+        ],
+      },
+      {
+        'chapter': 'Chapter 3',
+        'items': [
+          {'number': '1', 'subject': subject, 'teacher': 'Miss Sharma'},
+          {'number': '2', 'subject': subject, 'teacher': 'Miss Sharma'},
+        ],
+      },
+    ];
   }
 }
