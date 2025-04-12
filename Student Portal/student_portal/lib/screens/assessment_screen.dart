@@ -13,81 +13,135 @@ class AssessmentScreen extends StatelessWidget {
 
     return BaseScreen(
       selectedIndex: 0,
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-          // padding: const EdgeInsets.all(12.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // ✅ Custom Header
-              const CustomHeader(title: "Assessment"),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const CustomHeader(title: "Assessment"),
+            const SizedBox(height: 5),
 
-              const SizedBox(height: 10),
-
-              Center(
-                child: Text(
-                  subject,
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-
-              const SizedBox(height: 10),
-
-              Center(
-                child: Text(
-                  chapter,
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-              ),
-
-              const SizedBox(height: 10),
-
-              const Text("Classwork:", style: TextStyle(fontSize: 16)),
-              Container(
-                width: double.infinity,
-                height: 100,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black),
-                ),
-              ),
-
-              const SizedBox(height: 10),
-
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      height: 30,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black),
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Text(
+                        subject,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 10),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    const SizedBox(height: 10),
+
+                    Center(
+                      child: Text(
+                        chapter,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
                     ),
-                    child: const Text("Upload", style: TextStyle(color: Colors.white)),
-                  ),
-                ],
-              ),
+                    const SizedBox(height: 20),
 
-              const SizedBox(height: 10),
+                    // 🏫 Classwork Section
+                    Text(
+                      "Classwork - $chapter",
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w600),
+                    ),
+                    const SizedBox(height: 8),
+                    Container(
+                      width: double.infinity,
+                      height: 100,
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey.shade400),
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.grey.shade100,
+                      ),
+                    ),
 
-              const Text("Homework:", style: TextStyle(fontSize: 16)),
-              Container(
-                width: double.infinity,
-                height: 100,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black),
+                    const SizedBox(height: 20),
+
+                    // 📎 File Upload
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade50,
+                        border: Border.all(color: Colors.grey.shade300),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        children: [
+                          ElevatedButton.icon(
+                            onPressed: () {},
+                            icon: const Icon(Icons.attach_file,
+                                color: Colors.black),
+                            label: const Text("Attach File",
+                                style: TextStyle(color: Colors.black)),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.grey.shade300,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 10),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          const Expanded(
+                            child: Text(
+                              "demo_file.pdf",
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w500),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          ElevatedButton(
+                            onPressed: () {},
+                            child: const Text("Upload"),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 10),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    // 🏠 Homework Section
+                    Text(
+                      "Homework - $chapter",
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w600),
+                    ),
+                    const SizedBox(height: 8),
+                    Container(
+                      width: double.infinity,
+                      height: 100,
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey.shade400),
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.grey.shade100,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
