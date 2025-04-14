@@ -12,10 +12,7 @@ mongoose
 /**
  * ✅ Connect to teacher_portal (Events)
  */
-const teacherDB = mongoose.createConnection(process.env.TEACHER_MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+const teacherDB = mongoose.createConnection(process.env.TEACHER_MONGO_URI);
 
 teacherDB.on("connected", () =>
   console.log("✅ Connected to teacher_portal database")
