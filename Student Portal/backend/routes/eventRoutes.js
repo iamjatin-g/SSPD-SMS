@@ -27,24 +27,24 @@ router.get("/events", async (req, res) => {
   }
 });
 
-/**
- * ✅ Fetch Latest Event (Notifications)
- */
-router.get("/notifications", async (req, res) => {
-  try {
-    const latestEvent = await Event.findOne().sort({ _id: -1 });
+// /**
+//  * ✅ Fetch Latest Event (Notifications)
+//  */
+// router.get("/notifications", async (req, res) => {
+//   try {
+//     const latestEvent = await Event.findOne().sort({ _id: -1 });
 
-    if (!latestEvent) {
-      return res
-        .status(200)
-        .json({ success: true, message: "No new events", event: null });
-    }
+//     if (!latestEvent) {
+//       return res
+//         .status(200)
+//         .json({ success: true, message: "No new events", event: null });
+//     }
 
-    res.status(200).json({ success: true, event: latestEvent });
-  } catch (error) {
-    console.error("Error fetching notifications:", error);
-    res.status(500).json({ success: false, message: "Server error" });
-  }
-});
+//     res.status(200).json({ success: true, event: latestEvent });
+//   } catch (error) {
+//     console.error("Error fetching notifications:", error);
+//     res.status(500).json({ success: false, message: "Server error" });
+//   }
+// });
 
 module.exports = router;

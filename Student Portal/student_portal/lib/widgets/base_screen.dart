@@ -15,20 +15,20 @@ class BaseScreen extends StatefulWidget {
 class _BaseScreenState extends State<BaseScreen> {
   bool _hasNewNotification = false; // ✅ Red dot state
 
-  @override
-  void initState() {
-    super.initState();
-    _checkForNewAnnouncements();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _checkForNewAnnouncements();
+  // }
 
-  Future<void> _checkForNewAnnouncements() async {
-    final latestEvent = await ApiService.fetchLatestEvent();
-    if (latestEvent != null) {
-      setState(() {
-        _hasNewNotification = true;
-      });
-    }
-  }
+  // Future<void> _checkForNewAnnouncements() async {
+  //   final latestEvent = await ApiService.fetchLatestEvent();
+  //   if (latestEvent != null) {
+  //     setState(() {
+  //       _hasNewNotification = true;
+  //     });
+  //   }
+  // }
 
   void _onItemTapped(int index) {
     String route = AppRoutes.home;
