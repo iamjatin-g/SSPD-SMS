@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../widgets/base_screen.dart';
 import '../widgets/custom_header.dart';
 import '../services/api_service.dart';
+import '../widgets/event_card.dart'; // 💡 Reusable EventCard import
 
 class EventsScreen extends StatefulWidget {
   const EventsScreen({super.key});
@@ -34,18 +35,15 @@ class _EventsScreenState extends State<EventsScreen> {
       selectedIndex: 0,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-        // padding: const EdgeInsets.all(12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // **Custom Header (Same as ExamsScreen)**
             const CustomHeader(title: "Events"),
-
             const SizedBox(height: 10),
 
-            // **Search Bar**
+            // Search Bar
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 5),
               child: TextField(
                 decoration: InputDecoration(
                   hintText: "Search Event",
@@ -57,10 +55,9 @@ class _EventsScreenState extends State<EventsScreen> {
                 ),
               ),
             ),
-
             const SizedBox(height: 10),
 
-            // **Event List**
+            // Event List
             Expanded(
               child: _isLoading
                   ? const Center(child: CircularProgressIndicator())
@@ -71,76 +68,10 @@ class _EventsScreenState extends State<EventsScreen> {
                 itemBuilder: (context, index) {
                   final event = _events[index];
                   return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                     child: EventCard(event: event),
                   );
                 },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// **Event Card Widget**
-class EventCard extends StatelessWidget {
-  final Map<String, dynamic> event;
-  const EventCard({super.key, required this.event});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            // **Event Details**
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    event["name"] ?? "Event Name",
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 5),
-
-                  Row(
-                    children: [
-                      const Icon(Icons.event, color: Colors.blue, size: 18),
-                      const SizedBox(width: 5),
-                      Text(
-                        event["date"] ?? "Date not available",
-                        style: const TextStyle(fontSize: 14, color: Colors.grey),
-                      ),
-                      const SizedBox(width: 10),
-                      const Icon(Icons.location_on, color: Colors.red, size: 18),
-                      const SizedBox(width: 5),
-                      Text(
-                        event["venue"] ?? "Venue not available",
-                        style: const TextStyle(fontSize: 14, color: Colors.grey),
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 5),
-
-                  Row(
-                    children: [
-                      const Icon(Icons.person, color: Colors.green, size: 18),
-                      const SizedBox(width: 5),
-                      Text(
-                        "Managed by: ${event["managedBy"] ?? "N/A"}",
-                        style: const TextStyle(fontSize: 14),
-                      ),
-                    ],
-                  ),
-                ],
               ),
             ),
           ],
